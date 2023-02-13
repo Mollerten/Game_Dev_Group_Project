@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 22111a1a116903149856b59ddac998a1, type: 2}
 --- !u!1 &41873967
 GameObject:
   m_ObjectHideFlags: 0
@@ -1303,6 +1303,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 538261096943040043, guid: c696578007f4540489c7b8e7abcde927, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 538261096943040043, guid: c696578007f4540489c7b8e7abcde927, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1789213210691179719, guid: c696578007f4540489c7b8e7abcde927, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1347,9 +1355,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4392815010255103238, guid: c696578007f4540489c7b8e7abcde927, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.75
+      objectReference: {fileID: 0}
     - target: {fileID: 4920766876998317081, guid: c696578007f4540489c7b8e7abcde927, type: 3}
       propertyPath: m_Name
       value: MarcusPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 8801553444403215245, guid: c696578007f4540489c7b8e7abcde927, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c696578007f4540489c7b8e7abcde927, type: 3}
