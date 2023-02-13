@@ -1285,6 +1285,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MarcusPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 8801553444403215245, guid: c696578007f4540489c7b8e7abcde927, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c696578007f4540489c7b8e7abcde927, type: 3}
 --- !u!1001 &7519374489487179181

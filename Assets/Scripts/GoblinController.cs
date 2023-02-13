@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class GoblinController : MonoBehaviour
 {
+    public float aggroRange;
+
     private GameObject player;
     private NavMeshAgent agent;
 
@@ -20,13 +22,18 @@ public class GoblinController : MonoBehaviour
     {
         if (player)
         {
-            if (Vector3.Distance(transform.position, player.transform.position) < 40f)
+            if (Vector3.Distance(transform.position, player.transform.position) < aggroRange)
             {
+                agent.isStopped = false;
+                // This is where you would activate a walk/run animation
                 agent.SetDestination(player.transform.position);
             }
             else
             {
-                agent.SetDestination(transform.position);
+                // This is where you would activate an idle animation
+                // OR make the enemy go back to a "home" position
+                // defined earlier
+                agent.isStopped = true;
             }
         }
     }
