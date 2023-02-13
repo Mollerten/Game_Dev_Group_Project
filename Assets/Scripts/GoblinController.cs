@@ -1,30 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class GoblinController : MonoBehaviour
 {
-    public float speed;
-
-    [SerializeField]
     private GameObject player;
-    private Transform playerTransform;
-    private Rigidbody rb;
+    private NavMeshAgent agent;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerTransform = player.GetComponent<Transform>();
-        rb = GetComponent<Rigidbody>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Vector3.Distance(transform.position, playerTransform.position) < 40f)
+        if (player)
         {
-            transform.LookAt(new Vector3(playerTransform.position.x, 0, playerTransform.position.z));
-            rb.position = Vector3.MoveTowards(transform.position, new Vector3(playerTransform.position.x, 0, playerTransform.position.z), speed* Time.deltaTime);
+            if (Vector3.Distance(transform.position, player.transform.position) < 40f)
+            {
+                agent.SetDestination(player.transform.position);
+            }
+            else
+            {
+                agent.SetDestination(transform.position);
+            }
         }
     }
 }
