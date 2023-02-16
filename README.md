@@ -1,7 +1,9 @@
 # Game_Dev_Group_Project - Bornholm
 | GitHub name | Real name |
 | ----------- | --------- |
+| Mollerten | Mikkel |
 | Altant457 | Marcus |
+| L0stCarcosa | Otto |
 
 ## The game idea is about: 
 - third person/first person
