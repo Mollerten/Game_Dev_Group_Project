@@ -5,11 +5,11 @@ using UnityEngine;
 public class FloatyMcSinky : MonoBehaviour
 {
 
-    Rigidbody rigidbody;
+    Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         
     }
 
@@ -17,7 +17,7 @@ public class FloatyMcSinky : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space)) {
-            rigidbody.AddForce(Vector3.up * 100);
+            rb.AddForce(Vector3.up * 100);
         }
         
     }
