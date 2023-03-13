@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class GoblinController : MonoBehaviour
 {
     public float aggroRange;
-
+    private Animator anim;
     private GameObject player;
     private NavMeshAgent agent;
 
@@ -15,6 +15,7 @@ public class GoblinController : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -27,6 +28,7 @@ public class GoblinController : MonoBehaviour
                 agent.isStopped = false;
                 // This is where you would activate a walk/run animation
                 agent.SetDestination(player.transform.position);
+
             }
             else
             {
@@ -35,6 +37,13 @@ public class GoblinController : MonoBehaviour
                 // defined earlier
                 agent.isStopped = true;
             }
+
+            SetAnimationParameters();
         }
+    }
+
+    private void SetAnimationParameters()
+    {
+        anim.SetFloat("Speed", agent.desiredVelocity.magnitude);
     }
 }
