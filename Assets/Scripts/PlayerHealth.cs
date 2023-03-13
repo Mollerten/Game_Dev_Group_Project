@@ -10,7 +10,6 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 100;
     public int currentHealth;
 
-    [SerializeField] private GameObject playerHealth;
     [SerializeField] private Image healthBarFill;
     [SerializeField] private Image healthBarLoss;
     [SerializeField] private TextMeshProUGUI healthBarText;
@@ -23,7 +22,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        startValue = actualValue = maxHealth / 100f;
+        startValue = actualValue = currentHealth / (float)maxHealth;
     }
 
     void Update()
@@ -47,7 +46,7 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth -= damage;
         actualValue = currentHealth / (float)maxHealth;
-        startValue = healthBarFill.fillAmount;
+        startValue = healthBarLoss.fillAmount;
         healthBarFill.fillAmount = actualValue;
         healthBarText.text = $"{currentHealth}/{maxHealth}";
         timer = 0f;

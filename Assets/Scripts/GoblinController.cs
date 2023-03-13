@@ -9,6 +9,7 @@ public class GoblinController : MonoBehaviour
     private Animator anim;
     private GameObject player;
     private NavMeshAgent agent;
+    private EnemyHealth status;
 
     // Start is called before the first frame update
     void Start()
@@ -16,12 +17,13 @@ public class GoblinController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+        status = GetComponent<EnemyHealth>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player)
+        if (player && !status.IsEnemyDead())
         {
             if (Vector3.Distance(transform.position, player.transform.position) < aggroRange)
             {
@@ -39,6 +41,10 @@ public class GoblinController : MonoBehaviour
             }
 
             SetAnimationParameters();
+        }
+        else
+        {
+            agent.isStopped = true;
         }
     }
 

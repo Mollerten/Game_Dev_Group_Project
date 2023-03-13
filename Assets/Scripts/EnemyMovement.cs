@@ -5,38 +5,42 @@ using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
-    private NavMeshAgent navMeshAgent;
-    public Transform Player;
-    private float aggroRange = 15f; 
-
+    public float aggroRange;
+    private GameObject player;
+    private NavMeshAgent agent;
+    private EnemyHealth status;
 
     // Start is called before the first frame update
     void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        agent = GetComponent<NavMeshAgent>();
+        status = GetComponent<EnemyHealth>();
     }
 
     // Update is called once per frame
     void Update()
-
-{
-
-    if (Vector3.Distance(transform.position, Player.position) < aggroRange)
-
     {
+        if (player && !status.IsEnemyDead())
+        {
+            if (Vector3.Distance(transform.position, player.transform.position) < aggroRange)
+            {
+                agent.isStopped = false;
+                // This is where you would activate a walk/run animation
+                agent.SetDestination(player.transform.position);
 
-        navMeshAgent.isStopped = false; 
-
-        navMeshAgent.SetDestination(Player.position);
-
-    }
-
-    else
-
-    {
-
-        navMeshAgent.isStopped = true; 
-
-    }
+            }
+            else
+            {
+                // This is where you would activate an idle animation
+                // OR make the enemy go back to a "home" position
+                // defined earlier
+                agent.isStopped = true;
+            }
+        }
+        else
+        {
+            agent.isStopped = true;
+        }
     }
 }

@@ -8,6 +8,7 @@ public class PlayerAttack : MonoBehaviour
     public float minDamage = 5f;
     public float maxDamage = 10f;
     public float range = 0.7f;
+    public Transform direction;
     //public float critMult = 1.5f;
     //public float critChance = 10f;
 
@@ -16,20 +17,22 @@ public class PlayerAttack : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Mouse pressed");
-            HitCheck();
+            HitCheck(direction.eulerAngles);
         }
     }
 
-    void HitCheck()
+    void HitCheck(Vector3 euler)
     {
-        Ray rayFrom = new(transform.position, transform.forward);
-        if (Physics.Raycast(rayFrom, out RaycastHit hit, range))
+        float elevation = euler.x * Mathf.Deg2Rad;
+        float heading = euler.y * Mathf.Deg2Rad;
+        Vector3 orientation = new(Mathf.Cos(elevation) * Mathf.Sin(heading), Mathf.Sin(elevation), Mathf.Cos(elevation) * Mathf.Cos(heading));
+
+        Ray rayFrom = new(transform.position, orientation);
+        if (Physics.Raycast(rayFrom, out RaycastHit hit, range, 1 << 3))
         {
-            if (hit.collider.CompareTag("Enemy"))
+            if ((bool)!hit.collider.GetComponent<EnemyHealth>()?.IsEnemyDead())
             {
-                float damage = Random.Range(minDamage, maxDamage);
-                Debug.Log("HIT: " + damage);
+                int damage = Mathf.RoundToInt(Random.Range(minDamage, maxDamage));
                 hit.collider.GetComponent<EnemyHealth>().TakeDamage(damage);
             }
         }
