@@ -8,6 +8,8 @@ public class WeponController : MonoBehaviour
     private bool canAttack = true;
     public float AttackCooldown = 1.0f;
     public bool isAttacking = false;
+    
+
 
 
     // Start is called before the first frame update
@@ -28,16 +30,7 @@ public class WeponController : MonoBehaviour
         }
     }
 
-
-    public void SwordAttack()
-    {
-        isAttacking = true;
-        canAttack = false;
-        Animator anim = Sword.GetComponent<Animator>();
-        anim.SetTrigger("Attack");
-        StartCoroutine(ResetAttackCooldown());
-    }
-
+    
 
     IEnumerator ResetAttackCooldown()
     {
@@ -51,4 +44,15 @@ public class WeponController : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         isAttacking = false;
     }
+
+    public void SwordAttack()
+    {
+        isAttacking = true;
+        canAttack = false;
+        Animator anim = Sword.GetComponent<Animator>();
+        anim.SetTrigger("Attack");
+        StartCoroutine(ResetAttackCooldown());
+    }
+
+
 }
