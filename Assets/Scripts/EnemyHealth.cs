@@ -8,7 +8,7 @@ public class EnemyHealth : MonoBehaviour
 {
     public int maxHealth = 20;
     public int currentHealth;
-
+    
     private bool isEnemyDead;
     [SerializeField] private Image healthBarFill;
     [SerializeField] private Image healthBarLoss;
@@ -41,6 +41,8 @@ public class EnemyHealth : MonoBehaviour
 
         if (currentHealth <= 0 && !isEnemyDead)
         {         
+            SetKinematic(false);
+            GetComponent<Animator>().enabled = false;
             // Death animation goes here OR activate ragdoll and disable animator
             isEnemyDead = true;
             Destroy(gameObject, 10);
@@ -52,4 +54,13 @@ public class EnemyHealth : MonoBehaviour
     {
         return isEnemyDead;
     }
+
+    void SetKinematic(bool newValue)
+ {
+     Rigidbody[] bodies = GetComponentsInChildren<Rigidbody>();
+     foreach (Rigidbody rb in bodies)
+     {
+         rb.isKinematic = newValue;
+     }
+ }
 }

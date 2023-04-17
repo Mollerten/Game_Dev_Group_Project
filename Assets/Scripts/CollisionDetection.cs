@@ -10,6 +10,7 @@ public class CollisionDetection : MonoBehaviour
     public float maxDamage = 10f;
     public float range = 0.7f;
 
+
     
 
     private void OnTriggerEnter(Collider other) 
@@ -18,21 +19,14 @@ public class CollisionDetection : MonoBehaviour
         {
             Debug.Log(other.name);
             other.GetComponent<Animator>().SetTrigger("Hit");
-            doAttack();
+            doAttack(other);
         }
     }
    
-    private void doAttack()
+    private void doAttack(Collider enemy)
     {
-        Ray rayFrom = new(transform.position, transform.forward);
-        if (Physics.Raycast(rayFrom, out RaycastHit hit, range, 1 << 3))
-        {
-            if ((bool)!hit.collider.GetComponent<EnemyHealth>()?.IsEnemyDead())
-            {
                 int damage = Mathf.RoundToInt(Random.Range(minDamage, maxDamage));
-                hit.collider.GetComponent<EnemyHealth>().TakeDamage(damage);
-            }
-        }
-    } 
+                enemy.GetComponent<EnemyHealth>().TakeDamage(damage);
+    }
    
 }
