@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
-
+    public InputHandler _input;
     public float minDamage = 5f;
     public float maxDamage = 10f;
     public float range = 0.7f;
@@ -12,10 +13,9 @@ public class PlayerAttack : MonoBehaviour
     //public float critMult = 1.5f;
     //public float critChance = 10f;
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (_input.Fire)
         {
             HitCheck(direction.eulerAngles);
         }

@@ -1,39 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GM : MonoBehaviour
 {
-    private bool paused = false;
+    //private bool paused = false;
+    public InputHandler _input;
+    public PlayerInput playerInput;
 
     [SerializeField]
     private GameObject pauseMenu;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (!pauseMenu.activeInHierarchy && _input.Pause)
         {
-            if (!paused)
-            {
-                //Cursor.lockState = CursorLockMode.None;
-                pauseMenu.SetActive(true);
-                Time.timeScale = 0f;
-            }
-            else
-            {
-                //Cursor.lockState = CursorLockMode.Locked;
-                pauseMenu.SetActive(false);
-                Time.timeScale = 1f;
-            }
-
-            paused = !paused;
+            Time.timeScale = 0;
+            //playerInput.SwitchCurrentActionMap("UI");
+            pauseMenu.SetActive(true);
+            //InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInDynamicUpdate;
+            Debug.Log("Game Paused");
+        }
+        else if (pauseMenu.activeInHierarchy && _input.Pause)
+        {
+            Time.timeScale = 1;
+            //playerInput.SwitchCurrentActionMap("Player");
+            pauseMenu.SetActive(false);
+            //InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInFixedUpdate;
+            Debug.Log("Game Unpaused");
         }
     }
 

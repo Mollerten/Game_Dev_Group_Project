@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCam : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerCam : MonoBehaviour
     public float sensY;
 
     public Transform orientation;
+    public InputHandler _input;
 
     float xRotation;
     float yRotation;
@@ -16,16 +18,16 @@ public class PlayerCam : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         // get mouse input 
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime *sensX;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime *sensY;
+        float mouseX = _input.Look.x * Time.deltaTime * sensX;
+        float mouseY = _input.Look.y * Time.deltaTime * sensY;
 
         yRotation += mouseX;
         xRotation -= mouseY;
