@@ -30,6 +30,7 @@ public class PlayerAttack : MonoBehaviour
         Ray rayFrom = new(transform.position, orientation);
         if (Physics.Raycast(rayFrom, out RaycastHit hit, range, 1 << 3))
         {
+            Debug.Log(hit.collider.gameObject.name);
             if ((bool)!hit.collider.GetComponent<EnemyHealth>()?.IsEnemyDead())
             {
                 int damage = Mathf.RoundToInt(Random.Range(minDamage, maxDamage));

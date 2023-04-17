@@ -7,7 +7,6 @@ public class GM : MonoBehaviour
 {
     //private bool paused = false;
     public InputHandler _input;
-    public PlayerInput playerInput;
 
     [SerializeField]
     private GameObject pauseMenu;
