@@ -16,20 +16,30 @@ public class GM : MonoBehaviour
     {
         if (!pauseMenu.activeInHierarchy && _input.Pause)
         {
-            Time.timeScale = 0;
-            //playerInput.SwitchCurrentActionMap("UI");
-            pauseMenu.SetActive(true);
-            //InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInDynamicUpdate;
-            Debug.Log("Game Paused");
+            Pause();
         }
         else if (pauseMenu.activeInHierarchy && _input.Pause)
         {
-            Time.timeScale = 1;
-            //playerInput.SwitchCurrentActionMap("Player");
-            pauseMenu.SetActive(false);
-            //InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInFixedUpdate;
-            Debug.Log("Game Unpaused");
+            Unpause();
         }
+    }
+
+    public void Unpause()
+    {
+        Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        pauseMenu.SetActive(false);
+        Debug.Log("Game Unpaused");
+    }
+
+    public void Pause()
+    {
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        pauseMenu.SetActive(true);
+        Debug.Log("Game Paused");
     }
 
     public void ExitGame()

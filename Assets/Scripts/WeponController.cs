@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WeponController : MonoBehaviour
 {
+    public InputHandler _input;
     public GameObject Sword;
     private bool canAttack = true;
     public float AttackCooldown = 1.0f;
@@ -21,7 +22,7 @@ public class WeponController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButton(0))
+        if(_input.Fire)
         {
             if(canAttack)
             {
