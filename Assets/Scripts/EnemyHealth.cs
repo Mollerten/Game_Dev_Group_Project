@@ -24,6 +24,7 @@ public class EnemyHealth : MonoBehaviour
 
     void Start()
     {
+        player = GameObject.FindWithTag("Player");
         isEnemyDead = false;
         currentHealth = maxHealth;
         startValue = actualValue = currentHealth / (float)maxHealth;
@@ -38,6 +39,8 @@ public class EnemyHealth : MonoBehaviour
         displayValue = Mathf.Lerp(startValue, actualValue, timer);
         healthBarLoss.fillAmount = displayValue;
         attackTimer += Time.deltaTime;
+
+        healthBar.transform.LookAt(player.transform.position);
     }
 
     public void TakeDamage(int damage)

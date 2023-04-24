@@ -6,10 +6,15 @@ using UnityEngine.InputSystem;
 public class GM : MonoBehaviour
 {
     //private bool paused = false;
-    public InputHandler _input;
-
-    [SerializeField]
+    private InputHandler _input;
     private GameObject pauseMenu;
+
+    void Awake()
+    {
+        pauseMenu = GameObject.FindWithTag("PauseMenu");
+        pauseMenu.SetActive(false);
+        _input = GameObject.FindWithTag("Player").GetComponentInChildren<InputHandler>();
+    }
 
     void Update()
     {
