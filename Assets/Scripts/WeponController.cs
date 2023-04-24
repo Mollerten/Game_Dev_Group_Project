@@ -9,6 +9,8 @@ public class WeponController : MonoBehaviour
     private bool canAttack = true;
     public float AttackCooldown = 1.0f;
     public bool isAttacking = false;
+
+    public Transform direction;
     
 
 

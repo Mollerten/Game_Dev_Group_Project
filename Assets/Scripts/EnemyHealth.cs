@@ -27,6 +27,7 @@ public class EnemyHealth : MonoBehaviour
         isEnemyDead = false;
         currentHealth = maxHealth;
         startValue = actualValue = currentHealth / (float)maxHealth;
+        SetKinematic(true);
     }
 
     void Update()
@@ -69,11 +70,12 @@ public class EnemyHealth : MonoBehaviour
     }
 
     void SetKinematic(bool newValue)
- {
-     Rigidbody[] bodies = GetComponentsInChildren<Rigidbody>();
-     foreach (Rigidbody rb in bodies)
-     {
-         rb.isKinematic = newValue;
-     }
- }
+    {
+        Rigidbody[] bodies = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in bodies)
+        {
+             rb.isKinematic = newValue;
+        }
+    }
+    
 }
