@@ -35,7 +35,7 @@ public class EnemyHealth : MonoBehaviour
     {
         // check for player weapon and get attack cooldown
         hitCooldown = player.GetComponentInChildren<WeponController>().swordAttackCooldown;
-        timer += Time.deltaTime;
+        timer += Time.deltaTime * 2;
         displayValue = Mathf.Lerp(startValue, actualValue, timer);
         healthBarLoss.fillAmount = displayValue;
         attackTimer += Time.deltaTime;
@@ -62,7 +62,6 @@ public class EnemyHealth : MonoBehaviour
                 // Death animation goes here OR activate ragdoll and disable animator
                 isEnemyDead = true;
                 Destroy(gameObject, 10);
-                Debug.Log($"EnemyHealth is dead? {isEnemyDead}");
             }
         }
     }

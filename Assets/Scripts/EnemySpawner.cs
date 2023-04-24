@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [SerializeField] private int spawnMax = 10;
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private float goblinInterval = 5f;
 
-    [SerializeField] 
-    private GameObject enemyPrefab;
-
-    [SerializeField]
-    private float goblinInterval = 5f;
+    [ReadOnly] public int enemiesAlive = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -17,15 +17,23 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine(SpawnEnemy(goblinInterval, enemyPrefab));
     }
 
+    void Update()
+    {
+        int tmp = 0;
+        foreach (Transform child in transform)
+        {
+            if (!child.gameObject.GetComponent<EnemyHealth>().IsEnemyDead()) tmp++;
+        }
+        enemiesAlive = tmp;
+    }
+
     IEnumerator SpawnEnemy(float interval, GameObject enemy)
     {
-        
-            yield return new WaitForSeconds(interval);
-
-            GameObject mew = Instantiate(enemy, transform.position, Quaternion.identity);
-            //GameObject newEnemy = Instantiate(enemy, new Vector3(Random.Range(-5f,5), Random.Range(-6f,6),0), Quaternion.identity);
-        
-            StartCoroutine(SpawnEnemy(interval, enemy));
-        
+        if (!(enemiesAlive >= spawnMax))
+        {
+            GameObject mew = Instantiate(enemy, transform.position, Quaternion.identity, transform);
+        }
+        yield return new WaitForSeconds(interval);
+        StartCoroutine(SpawnEnemy(interval, enemy));
     }
 }

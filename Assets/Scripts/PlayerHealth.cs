@@ -27,7 +27,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime;
+        timer += Time.deltaTime * 2;
         displayValue = Mathf.Lerp(startValue, actualValue, timer);
         healthBarLoss.fillAmount = displayValue;
     }
