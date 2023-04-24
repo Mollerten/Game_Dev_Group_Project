@@ -9,6 +9,7 @@ public class CollisionDetection : MonoBehaviour
     public float minDamage = 5f;
     public float maxDamage = 10f;
     public float range = 0.7f;
+    public float attackCooldown = 1f;
    
     
 

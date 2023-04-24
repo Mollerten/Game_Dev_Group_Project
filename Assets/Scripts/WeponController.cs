@@ -5,12 +5,16 @@ using UnityEngine;
 public class WeponController : MonoBehaviour
 {
     public InputHandler _input;
+    // sword
     public GameObject Sword;
-    private bool canAttack = true;
-    public float AttackCooldown = 1.0f;
+    public float swordAttackCooldown = 1.0f;
+    // axe
+    public GameObject Axe;
+    public float axeAttackCooldown = 2.0f;
     public bool isAttacking = false;
 
-    public Transform direction;
+    private bool swordCanAttack = true;
+    private bool axeCanAttack = true;
     
 
 
@@ -26,9 +30,16 @@ public class WeponController : MonoBehaviour
     {
         if(_input.Fire)
         {
-            if(canAttack)
+            if(swordCanAttack)
             {
                 SwordAttack();
+            }
+        }
+        if(_input.RightFire)
+        {
+            if(axeCanAttack)
+            {
+                AxeAttack();
             }
         }
     }
@@ -38,8 +49,17 @@ public class WeponController : MonoBehaviour
     IEnumerator ResetAttackCooldown()
     {
         StartCoroutine(ResetAttackBool());
-        yield return new WaitForSeconds(AttackCooldown);
-        canAttack = true;
+        yield return new WaitForSeconds(swordAttackCooldown);
+        swordCanAttack = true;
+        
+    }
+
+    IEnumerator ResetAxeAttackCooldown()
+    {
+        StartCoroutine(ResetAttackBool());
+        yield return new WaitForSeconds(axeAttackCooldown);
+        axeCanAttack = true;
+        
     }
 
     IEnumerator ResetAttackBool()
@@ -51,10 +71,19 @@ public class WeponController : MonoBehaviour
     public void SwordAttack()
     {
         isAttacking = true;
-        canAttack = false;
+        swordCanAttack = false;
         Animator anim = Sword.GetComponent<Animator>();
         anim.SetTrigger("Attack");
         StartCoroutine(ResetAttackCooldown());
+    }
+
+    public void AxeAttack()
+    {
+        isAttacking = true;
+        axeCanAttack = false;
+        Animator anim = Axe.GetComponent<Animator>();
+        anim.SetTrigger("Attack");
+        StartCoroutine(ResetAxeAttackCooldown());
     }
 
 

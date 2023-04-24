@@ -33,7 +33,7 @@ public class EnemyHealth : MonoBehaviour
     void Update()
     {
         // check for player weapon and get attack cooldown
-        hitCooldown = player.GetComponentInChildren<WeponController>().AttackCooldown;
+        hitCooldown = player.GetComponentInChildren<WeponController>().swordAttackCooldown;
         timer += Time.deltaTime;
         displayValue = Mathf.Lerp(startValue, actualValue, timer);
         healthBarLoss.fillAmount = displayValue;
@@ -42,7 +42,7 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (attackTimer > hitCooldown)
+        if (attackTimer > 0.2f)
         {
             currentHealth -= damage;
             actualValue = currentHealth / (float)maxHealth;
