@@ -10,6 +10,7 @@ public class CollisionDetection : MonoBehaviour
     public float maxDamage = 10f;
     public float range = 0.7f;
     public float attackCooldown = 1f;
+    public GameObject HitParticle;
    
     
 
@@ -21,6 +22,7 @@ public class CollisionDetection : MonoBehaviour
         {
             Debug.Log(other.name);
             other.GetComponent<Animator>().SetTrigger("Hit");
+            Destroy(Instantiate(HitParticle, new Vector3(other.transform.position.x, other.transform.position.y + 1, other.transform.position.z), other.transform.rotation), 1f);
             doAttack(other);
         }
     }
