@@ -7,12 +7,13 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
 
-    public int maxHealth = 100;
+    public int maxHealth;
     public int currentHealth;
 
     [SerializeField] private Image healthBarFill;
     [SerializeField] private Image healthBarLoss;
     [SerializeField] private TextMeshProUGUI healthBarText;
+
     private float actualValue;
     private float startValue;
     private float displayValue = 1f;
@@ -21,7 +22,7 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = maxHealth;
+        currentHealth = maxHealth = 100;
         startValue = actualValue = currentHealth / (float)maxHealth;
     }
 
@@ -32,19 +33,9 @@ public class PlayerHealth : MonoBehaviour
         healthBarLoss.fillAmount = displayValue;
     }
 
-    public void Test()
-    {
-        currentHealth -= 10;
-        actualValue = currentHealth / (float)maxHealth;
-        startValue = healthBarFill.fillAmount;
-        healthBarFill.fillAmount = actualValue;
-        healthBarText.text = $"{currentHealth}/{maxHealth}";
-        timer = 0f;
-    }
-
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
         actualValue = currentHealth / (float)maxHealth;
         startValue = healthBarLoss.fillAmount;
         healthBarFill.fillAmount = actualValue;

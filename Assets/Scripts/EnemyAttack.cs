@@ -21,7 +21,7 @@ public class EnemyAttack : MonoBehaviour
 
      private void OnTriggerEnter(Collider other) 
     {
-        if(other.gameObject.tag == "Player" && attackCooldown <= 0)
+        if(other.gameObject.CompareTag("Player") && attackCooldown <= 0)
         {
             other.gameObject.GetComponent<PlayerHealth>().TakeDamage(10);
             attackCooldown = 2.0f;

@@ -18,19 +18,19 @@ public class CollisionDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) 
     {
-        if(other.tag == "Enemy" && wc.isAttacking)
+        if(other.CompareTag("Enemy") && wc.isAttacking)
         {
-            Debug.Log(other.name);
+            //Debug.Log(other.name);
             other.GetComponent<Animator>().SetTrigger("Hit");
             if(!other.GetComponent<EnemyHealth>().IsEnemyDead())
             {
                 Destroy(Instantiate(HitParticle, new Vector3(other.transform.position.x, other.transform.position.y + 0.75f, other.transform.position.z), other.transform.rotation), 1f);
             }
-            doAttack(other);
+            DoAttack(other);
         }
     }
    
-    private void doAttack(Collider enemy)
+    private void DoAttack(Collider enemy)
     {
                 int damage = Mathf.RoundToInt(Random.Range(minDamage, maxDamage));
                 enemy.GetComponent<EnemyHealth>().TakeDamage(damage);

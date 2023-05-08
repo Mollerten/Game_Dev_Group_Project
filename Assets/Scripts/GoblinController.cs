@@ -72,7 +72,7 @@ public class GoblinController : MonoBehaviour
             StartCoroutine(EnableNavMeshAgent());
             StartCoroutine(ResetAttackBool());
             if(Vector3.Distance(transform.position, player.transform.position) < 2.0f) player.GetComponent<PlayerHealth>().TakeDamage(5);
-            Debug.Log("Attacking");
+            //Debug.Log("Attacking");
 
         }
 

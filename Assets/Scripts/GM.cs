@@ -34,7 +34,6 @@ public class GM : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         pauseMenu.SetActive(false);
-        Debug.Log("Game Unpaused");
     }
 
     public void Pause()
@@ -43,7 +42,6 @@ public class GM : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         pauseMenu.SetActive(true);
-        Debug.Log("Game Paused");
     }
 
     public void ExitGame()
