@@ -42,7 +42,7 @@ public class PlayerHealth : MonoBehaviour
         timer = 0f;
     }
 
-    public void PlayerTakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         currentHealth -= damage;
         actualValue = currentHealth / (float)maxHealth;

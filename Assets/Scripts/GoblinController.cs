@@ -10,6 +10,7 @@ public class GoblinController : MonoBehaviour
     private GameObject player;
     private NavMeshAgent agent;
     private EnemyHealth status;
+    private bool isAttacking = false;
 
     // Start is called before the first frame update
     void Start()
@@ -23,33 +24,77 @@ public class GoblinController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player && !status.IsEnemyDead())
+        if (agent.enabled)
         {
-            if (Vector3.Distance(transform.position, player.transform.position) < aggroRange)
+            if (player && !status.IsEnemyDead())
             {
-                agent.isStopped = false;
-                // This is where you would activate a walk/run animation
-                agent.SetDestination(player.transform.position);
+                FollowPlayer();
 
+                StartCoroutine(AttackPlayer());
+
+                SetAnimationParameters();
             }
             else
             {
-                // This is where you would activate an idle animation
-                // OR make the enemy go back to a "home" position
-                // defined earlier
                 agent.isStopped = true;
             }
+        }
+    }
 
-            SetAnimationParameters();
+    private void FollowPlayer()
+    {
+        if (Vector3.Distance(transform.position, player.transform.position) < aggroRange)
+        {
+            agent.isStopped = false;
+            // This is where you would activate a walk/run animation
+            agent.SetDestination(player.transform.position);
+
         }
         else
         {
+            // This is where you would activate an idle animation
+            // OR make the enemy go back to a "home" position
+            // defined earlier
             agent.isStopped = true;
         }
+    }
+
+    IEnumerator AttackPlayer()
+    {
+        if (Vector3.Distance(transform.position, player.transform.position) < 2.0f && !isAttacking)
+        {
+            isAttacking = true;
+            agent.isStopped = true;
+            // This is where you would activate an attack animation
+            anim.SetTrigger("Attack");
+            agent.enabled = false;
+            yield return new WaitForSeconds(0.8f);
+            StartCoroutine(EnableNavMeshAgent());
+            StartCoroutine(ResetAttackBool());
+            if(Vector3.Distance(transform.position, player.transform.position) < 2.0f) player.GetComponent<PlayerHealth>().TakeDamage(5);
+            Debug.Log("Attacking");
+
+        }
+
     }
 
     private void SetAnimationParameters()
     {
         anim.SetFloat("Speed", agent.desiredVelocity.magnitude);
     }
+
+    IEnumerator EnableNavMeshAgent()
+    {
+        yield return new WaitForSeconds(1.0f);
+        agent.enabled = true;
+    }
+
+    IEnumerator ResetAttackBool()
+    {
+        yield return new WaitForSeconds(2f);
+        isAttacking = false;
+    }
+
+    
+
 }

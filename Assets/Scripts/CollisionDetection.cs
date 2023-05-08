@@ -22,7 +22,10 @@ public class CollisionDetection : MonoBehaviour
         {
             Debug.Log(other.name);
             other.GetComponent<Animator>().SetTrigger("Hit");
-            Destroy(Instantiate(HitParticle, new Vector3(other.transform.position.x, other.transform.position.y + 1, other.transform.position.z), other.transform.rotation), 1f);
+            if(!other.GetComponent<EnemyHealth>().IsEnemyDead())
+            {
+                Destroy(Instantiate(HitParticle, new Vector3(other.transform.position.x, other.transform.position.y + 0.75f, other.transform.position.z), other.transform.rotation), 1f);
+            }
             doAttack(other);
         }
     }
