@@ -8,12 +8,13 @@ public class WeponController : MonoBehaviour
     // sword
     public GameObject Sword;
     public float swordAttackCooldown = 1.0f;
+     private bool swordCanAttack = true;
     // axe
     public GameObject Axe;
     public float axeAttackCooldown = 2.0f;
     public bool isAttacking = false;
 
-    private bool swordCanAttack = true;
+    
     private bool axeCanAttack = true;
     
 

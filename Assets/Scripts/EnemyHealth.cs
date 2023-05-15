@@ -59,6 +59,8 @@ public class EnemyHealth : MonoBehaviour
                 SetKinematic(false);
                 GetComponent<Animator>().enabled = false;
                 healthBar.SetActive(false);
+                GetComponent<Collider>().enabled = false;
+                GetComponent<Rigidbody>().AddExplosionForce(1000, transform.position, 1);
                 // Death animation goes here OR activate ragdoll and disable animator
                 isEnemyDead = true;
                 Destroy(gameObject, 10);
