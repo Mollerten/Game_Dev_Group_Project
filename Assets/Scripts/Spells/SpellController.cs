@@ -11,8 +11,7 @@ public class SpellController : MonoBehaviour
     public InputHandler _input;
     public float spellCooldown = 1.0f;
     private bool spellEcanAttack = true;
-
-    private bool isAttacking = false;
+    
 
 
 
@@ -40,7 +39,7 @@ public class SpellController : MonoBehaviour
     void SpellAttack()
     {
         spellEcanAttack = false;
-        isAttacking = true;
+        
 
         var spell = Instantiate(spellPrefab, spellSpawnPoint.position, spellSpawnPoint.rotation);
         spell.GetComponent<Rigidbody>().velocity = spell.transform.forward * spellSpeed;
@@ -59,7 +58,8 @@ public class SpellController : MonoBehaviour
 
     IEnumerator ResetAttackBool()
     {
-        yield return new WaitForSeconds(1.0f);
-        isAttacking = false;
+        yield return new WaitForSeconds(0.1f);
+        spellEcanAttack = false;
+        
     }
 }
