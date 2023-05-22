@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class GM : MonoBehaviour
 {
-    public int enemyLevelScale = 0;
+    [ReadOnly] public int enemyLevelScale = 0;
 
     private InputHandler _input;
     private GameObject pauseMenu;

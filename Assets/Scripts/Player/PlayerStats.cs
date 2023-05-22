@@ -13,6 +13,7 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField] private Image xpBarFill;
     [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI statText;
 
     // Start is called before the first frame update
     void Start()
@@ -23,8 +24,12 @@ public class PlayerStats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        xpBarFill.fillAmount = playerLevelXp / xpReq;
-        levelText.text = $"{playerLevel}";
+        xpBarFill.fillAmount = playerLevelXp / (GetXPReq(playerLevel + 1) - GetXPReq(playerLevel));
+        levelText.text = $"{playerLevel + 1}";
+        statText.text = $"Total xp: {playerXP}xp\n" +
+            $"Current xp: {playerLevelXp}xp\n" +
+            $"Total xp requirement for next level: {string.Format("{0:0.00}", xpReq)}xp\n" +
+            $"Xp until next level: {string.Format("{0:0.00}", xpReq - playerXP)}xp";
     }
 
     private float GetXPReq(int level)
@@ -34,14 +39,15 @@ public class PlayerStats : MonoBehaviour
 
     public void AddXP(int xp)
     {
+        //float xp = _xp;
         playerXP += xp;
         playerLevelXp += xp;
-        if (playerLevelXp / xpReq >= 1)
+        if (xpReq - playerXP <= 0)
         {
             playerLevel++;
             playerLevelXp = playerXP - xpReq;
             xpReq = GetXPReq(playerLevel + 1);
-        }
+        }       
     }
 
     public int GetLevel()
