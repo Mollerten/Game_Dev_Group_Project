@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class SpellDmg : MonoBehaviour
 {
-    public float minDamage = 20f;
-    public float maxDamage = 25f;
+    public float minDamage = 10f;
+    public float maxDamage = 17f;
     public float lifeTime =  3f;
+    private GameObject player;
+    public int level = 1;
+    
+    
     
 
     // Start is called before the first frame update
     void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         Destroy(gameObject, lifeTime);
     }
 
@@ -19,9 +24,26 @@ public class SpellDmg : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            float damage = Random.Range(minDamage, maxDamage);
-            other.gameObject.GetComponent<EnemyHealth>().TakeDamage((int)damage);
+            other.gameObject.GetComponent<EnemyHealth>().TakeDamage(damageScaling());
             Destroy(gameObject);
         }
+    }
+
+    public int damageScaling()
+    {
+        int damage;
+        level = player.GetComponent<PlayerStats>().playerLevel + 1;
+        
+        if (level == 1)
+        {
+            damage = Mathf.RoundToInt(Random.Range(minDamage, maxDamage));
+        }
+        else
+        {
+            damage = Mathf.RoundToInt(Random.Range(minDamage, maxDamage) + ((level*0.8f)*5));
+        }
+
+        // Debug.Log("Spell damage: " + damage);
+        return damage;
     }
 }

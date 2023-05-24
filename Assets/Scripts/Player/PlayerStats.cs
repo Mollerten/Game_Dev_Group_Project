@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
-    private int playerLevel = 0;
+    public int playerLevel = 0;
     private float playerLevelXp = 0;
     private float playerXP = 0;
     private float xpReq;

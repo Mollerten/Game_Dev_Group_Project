@@ -6,10 +6,11 @@ public class SpellController : MonoBehaviour
 {
 
     public GameObject spellPrefab;
-    public float spellSpeed = 10.0f;
+    public float spellSpeed = 50.0f;
     public Transform spellSpawnPoint;
     public InputHandler _input;
-    public float spellCooldown = 1.0f;
+    private GameObject player;
+    public float spellCooldown = 2.0f;
     private bool spellEcanAttack = true;
     
 
@@ -19,7 +20,7 @@ public class SpellController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -42,7 +43,7 @@ public class SpellController : MonoBehaviour
         
 
         var spell = Instantiate(spellPrefab, spellSpawnPoint.position, spellSpawnPoint.rotation);
-        spell.GetComponent<Rigidbody>().velocity = spell.transform.forward * spellSpeed;
+        spell.GetComponent<Rigidbody>().velocity = spell.transform.forward * spellSpeedScaling();
         StartCoroutine(ResetAttackCooldown());
     }
 
@@ -51,7 +52,7 @@ public class SpellController : MonoBehaviour
     IEnumerator ResetAttackCooldown()
     {
         StartCoroutine(ResetAttackBool());
-        yield return new WaitForSeconds(spellCooldown);
+        yield return new WaitForSeconds(spellCoolDownScaling());
         spellEcanAttack = true;
         
     }
@@ -61,5 +62,31 @@ public class SpellController : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         spellEcanAttack = false;
         
+    }
+
+    float spellCoolDownScaling()
+    {
+        int playerLevel = player.GetComponent<PlayerStats>().playerLevel;
+        
+        if (playerLevel < 7)
+        {
+            spellCooldown = 2.0f - (playerLevel * 0.25f);
+        }
+        if (playerLevel >= 7)
+        {
+            spellCooldown = 0.50f;
+        }
+        // Debug.Log("Spell cooldown: " + spellCooldown);
+        return spellCooldown;
+    }
+
+    float spellSpeedScaling()
+    {
+        int playerLevel = player.GetComponent<PlayerStats>().playerLevel;
+        if(playerLevel > 1)
+        {
+            spellSpeed = 50.0f + (playerLevel * 2.5f);
+        }
+        return spellSpeed;
     }
 }
