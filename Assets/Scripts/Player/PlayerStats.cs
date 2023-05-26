@@ -45,7 +45,7 @@ public class PlayerStats : MonoBehaviour
         //float xp = _xp;
         playerXP += xp;
         playerLevelXp += xp;
-        if (xpReq - playerXP <= 0)
+        if (xpReq - playerXP <= 0) // level up
         {
             playerLevel++;
             playerLevelXp = playerXP - xpReq;

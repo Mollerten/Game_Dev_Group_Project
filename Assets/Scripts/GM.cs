@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class GM : MonoBehaviour
 {
     [ReadOnly] public int enemyLevelScale = 0;
 
+    [SerializeField] private GameObject[] buttons;
+    [SerializeField] private string[] buttonTexts;
     private InputHandler _input;
     private GameObject pauseMenu;
     private TextMeshProUGUI timerText;
@@ -67,6 +70,19 @@ public class GM : MonoBehaviour
         Cursor.visible = true;
         pauseMenu.SetActive(true);
         paused = true;
+        UpdateLevelUpChoices();
+    }
+
+    public void UpdateLevelUpChoices()
+    {
+        foreach (var button in buttons)
+        {
+            //button.GetComponent<Button>().onClick.RemoveAllListeners();
+            //get onClick from arr
+            button.GetComponentInChildren<TextMeshProUGUI>().text = $"{buttonTexts[Random.Range(0,buttonTexts.Length)]}";
+            //button.GetComponent<Button>().onClick.AddListener(ExitGame);
+            //button.GetComponent<Button>().onClick.AddListener(delegate { ExitGame();});
+        }
     }
 
     public void ExitGame()
