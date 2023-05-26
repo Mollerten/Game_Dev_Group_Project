@@ -66,26 +66,26 @@ public class SpellController : MonoBehaviour
 
     float spellCoolDownScaling()
     {
-        int playerLevel = player.GetComponent<PlayerStats>().playerLevel;
+        int spellLevel = player.GetComponent<PlayerUpgrades>().spellELevel;
         
-        if (playerLevel < 7)
+        if (spellLevel < 7)
         {
-            spellCooldown = 2.0f - (playerLevel * 0.25f);
+            spellCooldown = 2.0f - (spellLevel * 0.25f);
         }
-        if (playerLevel >= 7)
+        if (spellLevel >= 7)
         {
             spellCooldown = 0.50f;
         }
-        // Debug.Log("Spell cooldown: " + spellCooldown);
+        Debug.Log("Spell cooldown: " + spellCooldown);
         return spellCooldown;
     }
 
     float spellSpeedScaling()
     {
-        int playerLevel = player.GetComponent<PlayerStats>().playerLevel;
-        if(playerLevel > 1)
+        int spellLevel = player.GetComponent<PlayerUpgrades>().spellELevel;
+        if(spellLevel > 1)
         {
-            spellSpeed = 50.0f + (playerLevel * 2.5f);
+            spellSpeed = 50.0f + (spellLevel * 2.5f);
         }
         return spellSpeed;
     }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
-    public int playerLevel = 0;
+    private int playerLevel = 0;
     private float playerLevelXp = 0;
     private float playerXP = 0;
     private float xpReq;
@@ -14,6 +14,9 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private Image xpBarFill;
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI statText;
+
+    //tester 
+    public int skillPoints; 
 
     // Start is called before the first frame update
     void Start()
@@ -47,11 +50,19 @@ public class PlayerStats : MonoBehaviour
             playerLevel++;
             playerLevelXp = playerXP - xpReq;
             xpReq = GetXPReq(playerLevel + 1);
+            //test 
+            skillPoints++;
+            Debug.Log("skill point: " + skillPoints);
         }       
     }
 
     public int GetLevel()
     {
         return playerLevel;
+    }
+
+    public int GetSkillPoints()
+    {
+        return skillPoints;
     }
 }

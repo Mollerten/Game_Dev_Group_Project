@@ -35,7 +35,7 @@ public class EnemyHealth : MonoBehaviour
 
         level = GameObject.FindWithTag("GameController").GetComponent<GM>().enemyLevelScale;
         if (level < 1) level = 1;
-        xp = level * 2200;
+        xp = level * 20;
 
         levelText.text = $"{level}";
     }

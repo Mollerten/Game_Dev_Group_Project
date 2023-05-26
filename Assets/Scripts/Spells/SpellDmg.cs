@@ -31,19 +31,15 @@ public class SpellDmg : MonoBehaviour
 
     public int damageScaling()
     {
-        int damage;
-        level = player.GetComponent<PlayerStats>().playerLevel + 1;
-        
-        if (level == 1)
+        int damage = 10;
+        level = player.GetComponent<PlayerUpgrades>().spellELevel;
+    
+        if (level >= 0)
         {
-            damage = Mathf.RoundToInt(Random.Range(minDamage, maxDamage));
-        }
-        else
-        {
-            damage = Mathf.RoundToInt(Random.Range(minDamage, maxDamage) + ((level*0.8f)*5));
+         damage = Mathf.RoundToInt(Random.Range(minDamage, maxDamage) + ((level*0.8f)*5));
         }
 
-        // Debug.Log("Spell damage: " + damage);
+        Debug.Log("Spell damage: " + damage);
         return damage;
     }
 }
