@@ -52,7 +52,9 @@ public class PlayerStats : MonoBehaviour
             xpReq = GetXPReq(playerLevel + 1);
             //test 
             skillPoints++;
+            gameObject.GetComponent<PlayerUpgrades>().upgradeMenu();
             Debug.Log("skill point: " + skillPoints);
+
         }       
     }
 
@@ -64,5 +66,10 @@ public class PlayerStats : MonoBehaviour
     public int GetSkillPoints()
     {
         return skillPoints;
+    }
+
+    public void SetSkillPoints(int skillPoints)
+    {
+        this.skillPoints = skillPoints;
     }
 }

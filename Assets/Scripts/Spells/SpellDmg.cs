@@ -32,7 +32,7 @@ public class SpellDmg : MonoBehaviour
     public int damageScaling()
     {
         int damage = 10;
-        level = player.GetComponent<PlayerUpgrades>().spellELevel;
+        level = player.GetComponent<PlayerUpgrades>().fireballLevel;
     
         if (level >= 0)
         {

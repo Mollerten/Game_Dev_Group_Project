@@ -66,7 +66,7 @@ public class SpellController : MonoBehaviour
 
     float spellCoolDownScaling()
     {
-        int spellLevel = player.GetComponent<PlayerUpgrades>().spellELevel;
+        int spellLevel = player.GetComponent<PlayerUpgrades>().fireballLevel;
         
         if (spellLevel < 7)
         {
@@ -82,7 +82,7 @@ public class SpellController : MonoBehaviour
 
     float spellSpeedScaling()
     {
-        int spellLevel = player.GetComponent<PlayerUpgrades>().spellELevel;
+        int spellLevel = player.GetComponent<PlayerUpgrades>().fireballLevel;
         if(spellLevel > 1)
         {
             spellSpeed = 50.0f + (spellLevel * 2.5f);

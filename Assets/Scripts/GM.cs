@@ -9,8 +9,8 @@ public class GM : MonoBehaviour
 {
     [ReadOnly] public int enemyLevelScale = 0;
 
-    [SerializeField] private GameObject[] buttons;
-    [SerializeField] private string[] buttonTexts;
+    [SerializeField] public GameObject[] buttons;
+    [SerializeField] public string[] buttonTexts;
     private InputHandler _input;
     private GameObject pauseMenu;
     private TextMeshProUGUI timerText;
@@ -19,9 +19,10 @@ public class GM : MonoBehaviour
     private int seconds = 0;
     private float timer = 0;
     private bool started = true; // would change value upon starting/quitting the game, not needed currently as the game is always started
-    private bool paused = false;
+    public bool paused = false;
     private float difficultyScale = 1; // hardcoded for now, would need the player choosing Easy(1)/Medium(1.5)/Hard(2)
     private string time;
+    private GameObject levelUpMenu;
 
     void Awake()
     {
@@ -30,6 +31,8 @@ public class GM : MonoBehaviour
         _input = GameObject.FindWithTag("Player").GetComponentInChildren<InputHandler>();
         playerLevel = GameObject.FindWithTag("Player").GetComponentInChildren<PlayerStats>().GetLevel();
         timerText = GameObject.FindWithTag("Timer").GetComponent<TextMeshProUGUI>();
+        levelUpMenu = GameObject.FindGameObjectWithTag("LevelUpMenu");
+        levelUpMenu.SetActive(false);
     }
 
     void Update()
@@ -44,33 +47,43 @@ public class GM : MonoBehaviour
             timerText.text = time;
         }
         
-        if (!pauseMenu.activeInHierarchy && _input.Pause)
+        if(!levelUpMenu.activeInHierarchy)
         {
-            Pause();
-        }
-        else if (pauseMenu.activeInHierarchy && _input.Pause)
-        {
-            Unpause();
+            if (!pauseMenu.activeInHierarchy && _input.Pause)
+            {
+                Pause();
+            }
+            else if (pauseMenu.activeInHierarchy && _input.Pause)
+            {
+                Unpause();
+            }
         }
     }
 
-    public void Unpause()
+    public void Unpause(bool levelUp = false)
     {
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        pauseMenu.SetActive(false);
+        if (!levelUp)
+        {
+            pauseMenu.SetActive(false);
+        }
         paused = false;
     }
 
-    public void Pause()
+    public void Pause(bool levelUp = false)
     {
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        pauseMenu.SetActive(true);
+
+        if (!levelUp)
+        {
+            pauseMenu.SetActive(true);
+        }
         paused = true;
-        UpdateLevelUpChoices();
+        // UpdateLevelUpChoices();
     }
 
     public void UpdateLevelUpChoices()
