@@ -128,7 +128,7 @@ public class PlayerUpgrades : MonoBehaviour
     {
         
             health++;
-
+            gameObject.GetComponent<PlayerHealth>().healthScaling();
         
         CloseMenu();
     }

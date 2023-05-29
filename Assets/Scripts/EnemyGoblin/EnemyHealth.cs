@@ -89,6 +89,8 @@ public class EnemyHealth : MonoBehaviour
                 healthBar.SetActive(false);
                 GetComponent<Collider>().enabled = false;
                 GetComponent<Rigidbody>().AddExplosionForce(1000, transform.position, 1);
+                gameObject.tag = "DeadEnemy";
+                
                 // Death animation goes here OR activate ragdoll and disable animator
                 isEnemyDead = true;
                 player.GetComponent<PlayerStats>().AddXP(xp);
@@ -110,5 +112,6 @@ public class EnemyHealth : MonoBehaviour
              rb.isKinematic = newValue;
         }
     }
+    
     
 }

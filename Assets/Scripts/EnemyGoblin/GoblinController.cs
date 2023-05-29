@@ -95,6 +95,18 @@ public class GoblinController : MonoBehaviour
         isAttacking = false;
     }
 
+    public void slowEnemy(float slowTime)
+    {
+        StartCoroutine(slowReset(slowTime));
+    }
+
+    IEnumerator slowReset(float slowTime)
+    {
+        float originalSpeed = agent.speed;
+        agent.speed = 1.25f;
+        yield return new WaitForSeconds(slowTime);
+        agent.speed = originalSpeed;
+    }
     
 
 }

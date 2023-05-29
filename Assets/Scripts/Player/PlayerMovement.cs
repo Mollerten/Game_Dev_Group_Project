@@ -78,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
 
         // in air
         else if(!grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * (SpeedScaling()/2) * 10f * airMultiplier, ForceMode.Force);
     }
 
     private void SpeedControl()
@@ -108,7 +108,10 @@ public class PlayerMovement : MonoBehaviour
     public float SpeedScaling()
     {
         float speed = moveSpeed + ((GetComponent<PlayerUpgrades>().speed) * 3);
-        Debug.Log("Speed: " + speed);
+        // Debug.Log("Speed: " + speed);
         return speed;
     }
+
+    
+
 }

@@ -33,6 +33,7 @@ public class PlayerHealth : MonoBehaviour
         timer += Time.deltaTime * 2;
         displayValue = Mathf.Lerp(startValue, actualValue, timer);
         healthBarLoss.fillAmount = displayValue; 
+        
     }
     
     

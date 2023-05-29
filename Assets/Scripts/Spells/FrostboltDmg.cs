@@ -27,19 +27,8 @@ public class FrostboltDmg : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<EnemyHealth>().TakeDamage(damageScaling());
-            for (int i = 0; i < slowScale(); i++)
-            {
-                other.gameObject.GetComponent<NavMeshAgent>().speed = 0.5f;
-    
-                if (i == slowScale() - 1)
-                {
-                    other.gameObject.GetComponent<NavMeshAgent>().speed = 2f;
-                }
-            }
-            
-            other.gameObject.GetComponent<NavMeshAgent>().speed = 2f;
-            
+            DoFrostboltAttack(other);
+       
             Destroy(gameObject);
         }
     }
@@ -66,8 +55,20 @@ public class FrostboltDmg : MonoBehaviour
     
         if (level >= 0)
         {
-            slowTime = 2 + (level*1.5f);
+            slowTime = 2 + (level*0.2f);
         }
         return slowTime;
     }
+
+    
+    
+    public void DoFrostboltAttack(Collider enemy)
+    {
+        Debug.Log("enemy: " + enemy.gameObject.name);
+        enemy.gameObject.GetComponent<EnemyHealth>().TakeDamage(damageScaling());
+        enemy.gameObject.GetComponent<GoblinController>().slowEnemy(slowScale());
+    }
+
+
+    
 }
