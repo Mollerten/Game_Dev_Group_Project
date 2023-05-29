@@ -25,6 +25,7 @@ public class SpellDmg : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             other.gameObject.GetComponent<EnemyHealth>().TakeDamage(damageScaling());
+            other.gameObject.GetComponent<Animator>().SetTrigger("Hit");
             Destroy(gameObject);
         }
     }
@@ -39,7 +40,7 @@ public class SpellDmg : MonoBehaviour
          damage = Mathf.RoundToInt(Random.Range(minDamage, maxDamage) + ((level*0.8f)*5));
         }
 
-        Debug.Log("Spell damage: " + damage);
+        // Debug.Log("Spell damage: " + damage);
         return damage;
     }
 }

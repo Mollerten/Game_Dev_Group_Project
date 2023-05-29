@@ -53,8 +53,7 @@ public class PlayerStats : MonoBehaviour
             //test 
             skillPoints++;
             gameObject.GetComponent<PlayerUpgrades>().upgradeMenu();
-            Debug.Log("skill point: " + skillPoints);
-
+            // Debug.Log("skill point: " + skillPoints);
         }       
     }
 

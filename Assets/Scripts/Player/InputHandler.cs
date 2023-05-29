@@ -10,6 +10,7 @@ public class InputHandler : MonoBehaviour
     public bool Fire;
     public bool RightFire;
     public bool EAction;
+    public bool QAction;
     public bool Jump;
     public Vector2 Move;
     public bool Pause;
@@ -18,6 +19,7 @@ public class InputHandler : MonoBehaviour
     InputAction _fireAction;
     InputAction _rightFireAction;
     InputAction _eAction;
+    InputAction _qAction;
     InputAction _moveAction;
     InputAction _jumpAction;
     InputAction _pauseAction;
@@ -32,6 +34,7 @@ public class InputHandler : MonoBehaviour
         _lookAction = _playerInput.actions["Look"];
         _rightFireAction = _playerInput.actions["RightFire"];
         _eAction = _playerInput.actions["EAction"];
+        _qAction = _playerInput.actions["QAction"];
     }
 
     void Update()
@@ -39,6 +42,7 @@ public class InputHandler : MonoBehaviour
         Fire = _fireAction.WasPressedThisFrame();
         RightFire = _rightFireAction.WasPressedThisFrame();
         EAction = _eAction.WasPressedThisFrame();
+        QAction = _qAction.WasPressedThisFrame();
         Move = _moveAction.ReadValue<Vector2>();
         Jump = _jumpAction.WasPressedThisFrame();
         Pause = _pauseAction.WasPressedThisFrame();

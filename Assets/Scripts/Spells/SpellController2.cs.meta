@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 62cabb0a1e543fa4ca123721dd6a25ff
+guid: a5df6909f1f6e3245be5402ef10ebc9d
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - spellPrefab: {fileID: 2685542896746518796, guid: 695d67f06accb1542a4f94eba541016d,
+  - spellPrefab: {fileID: 2232496009137363417, guid: 810a7f9c5ef7af44ab8e6a9a0275f2cc,
       type: 3}
   - spellSpawnPoint: {instanceID: 0}
   - _input: {instanceID: 0}

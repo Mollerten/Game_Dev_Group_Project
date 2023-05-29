@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
 
         // on ground
         if(grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * SpeedScaling() * 10f, ForceMode.Force);
 
         // in air
         else if(!grounded)
@@ -103,5 +103,12 @@ public class PlayerMovement : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+    public float SpeedScaling()
+    {
+        float speed = moveSpeed + ((GetComponent<PlayerUpgrades>().speed) * 3);
+        Debug.Log("Speed: " + speed);
+        return speed;
     }
 }

@@ -42,5 +42,10 @@ public class EnemyMovement : MonoBehaviour
         {
             agent.isStopped = true;
         }
+        Debug.Log("Enemy movespeed: " + agent.speed);
     }
+
+
+
+
 }

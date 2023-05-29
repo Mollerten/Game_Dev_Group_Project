@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpellController : MonoBehaviour
+public class SpellController2 : MonoBehaviour
 {
 
     public GameObject spellPrefab;
@@ -26,7 +26,7 @@ public class SpellController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_input.EAction)
+        if(_input.QAction)
         {
             if(spellEcanAttack)
             {
@@ -66,7 +66,7 @@ public class SpellController : MonoBehaviour
 
     float spellCoolDownScaling()
     {
-        int spellLevel = player.GetComponent<PlayerUpgrades>().fireballLevel;
+        int spellLevel = player.GetComponent<PlayerUpgrades>().frostboltLevel;
         
         if (spellLevel < 7)
         {
@@ -82,7 +82,7 @@ public class SpellController : MonoBehaviour
 
     float spellSpeedScaling()
     {
-        int spellLevel = player.GetComponent<PlayerUpgrades>().fireballLevel;
+        int spellLevel = player.GetComponent<PlayerUpgrades>().frostboltLevel;
         if(spellLevel > 1)
         {
             spellSpeed = 50.0f + (spellLevel * 2.5f);

@@ -18,10 +18,12 @@ public class PlayerHealth : MonoBehaviour
     private float startValue;
     private float displayValue = 1f;
     private float timer = 0f;
+    private GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         currentHealth = maxHealth = 100;
         startValue = actualValue = currentHealth / (float)maxHealth;
     }
@@ -30,9 +32,10 @@ public class PlayerHealth : MonoBehaviour
     {
         timer += Time.deltaTime * 2;
         displayValue = Mathf.Lerp(startValue, actualValue, timer);
-        healthBarLoss.fillAmount = displayValue;
+        healthBarLoss.fillAmount = displayValue; 
     }
-
+    
+    
     public void TakeDamage(int damage)
     {
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
@@ -42,4 +45,17 @@ public class PlayerHealth : MonoBehaviour
         healthBarText.text = $"{currentHealth}/{maxHealth}";
         timer = 0f;
     }
+
+    public void healthScaling()
+    {
+        maxHealth = maxHealth + (player.GetComponent<PlayerUpgrades>().health * 25);
+        currentHealth = maxHealth;
+        actualValue = currentHealth / (float)maxHealth;
+        startValue = healthBarLoss.fillAmount;
+        healthBarFill.fillAmount = actualValue; 
+       
+        healthBarText.text = $"{currentHealth}/{maxHealth}";
+    }
+
+    
 }

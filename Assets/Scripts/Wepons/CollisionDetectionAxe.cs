@@ -2,19 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollisionDetection : MonoBehaviour
+public class CollisionDetectionAxe : MonoBehaviour
 {
     public WeponController wc;
 
-    public float minDamage = 5f;
-    public float maxDamage = 10f;
-    public float range = 0.7f;
-    public float attackCooldown = 1f;
+    public float minDamageAxe = 8f;
+    public float maxDamageAxe = 15f;
+    public float range = 1.6f;
     public GameObject HitParticle;
+    private GameObject player;
    
-    
+    private void Awake() {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 
-   
 
     private void OnTriggerEnter(Collider other) 
     {
@@ -26,14 +27,23 @@ public class CollisionDetection : MonoBehaviour
             {
                 Destroy(Instantiate(HitParticle, new Vector3(other.transform.position.x, other.transform.position.y + 0.75f, other.transform.position.z), other.transform.rotation), 1f);
             }
+            // Debug.Log("Axe: " + axeDamageScaling());
             DoAttack(other);
         }
     }
-   
+
+
     private void DoAttack(Collider enemy)
     {
-                int damage = Mathf.RoundToInt(Random.Range(minDamage, maxDamage));
-                enemy.GetComponent<EnemyHealth>().TakeDamage(damage);
+            enemy.GetComponent<EnemyHealth>().TakeDamage(axeDamageScaling());
     }
+
+    int axeDamageScaling()
+    {
+        int damage = Mathf.RoundToInt(Random.Range(minDamageAxe, maxDamageAxe) + (player.GetComponent<PlayerUpgrades>().axeLevel) * 2.5f);
+        return damage;
+    }
+
+    
    
 }
