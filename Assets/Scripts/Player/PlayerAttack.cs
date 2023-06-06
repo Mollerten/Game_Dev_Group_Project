@@ -15,7 +15,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (_input.Fire)
+        if (_input.Fire && !GetComponent<PlayerHealth>().IsDead())
         {
             HitCheck(direction.eulerAngles);
         }

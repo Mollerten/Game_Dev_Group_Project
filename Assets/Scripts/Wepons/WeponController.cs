@@ -25,13 +25,13 @@ public class WeponController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(_input.Fire)
+        if(_input.Fire && !player.GetComponent<PlayerHealth>().IsDead())
         {
             if(swordCanAttack)
             {
@@ -39,7 +39,7 @@ public class WeponController : MonoBehaviour
                 SwordSwipeRandom();
             }
         }
-        if(_input.RightFire)
+        if(_input.RightFire && !player.GetComponent<PlayerHealth>().IsDead())
         {
             if(axeCanAttack)
             {

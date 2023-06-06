@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
         SpeedControl();
 
-        if (_input.Jump && readyToJump && grounded)
+        if (_input.Jump && readyToJump && grounded && !GetComponent<PlayerHealth>().IsDead())
         {
             readyToJump = false;
             Jump();
@@ -66,7 +66,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        if (!GetComponent<PlayerHealth>().IsDead())
+        {
+            MovePlayer(); 
+        }
     }
 
     private void MovePlayer()

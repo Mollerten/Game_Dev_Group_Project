@@ -16,7 +16,7 @@ public class GoblinController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         status = GetComponent<EnemyHealth>();
@@ -27,7 +27,7 @@ public class GoblinController : MonoBehaviour
     {
         if (agent.enabled)
         {
-            if (player && !status.IsEnemyDead())
+            if (player && !status.IsEnemyDead() && !player.GetComponent<PlayerHealth>().IsDead())
             {
                 FollowPlayer();
 

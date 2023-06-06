@@ -20,11 +20,12 @@ public class PlayerHealth : MonoBehaviour
     private float displayValue = 1f;
     private float timer = 0f;
     private GameObject player;
+    private bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindWithTag("Player");
         currentHealth = maxHealth = 100;
         startValue = actualValue = currentHealth / (float)maxHealth;
     }
@@ -47,6 +48,16 @@ public class PlayerHealth : MonoBehaviour
         healthBarFill.fillAmount = actualValue;
         healthBarText.text = $"{currentHealth}/{maxHealth}";
         timer = 0f;
+        if (currentHealth <= 0 && !isDead)
+        {
+            GameObject.FindWithTag("GameController").GetComponent<GM>().GameOver();
+            isDead = true;
+        }
+    }
+
+    public bool IsDead()
+    {
+        return isDead;
     }
 
     public void healthScaling()

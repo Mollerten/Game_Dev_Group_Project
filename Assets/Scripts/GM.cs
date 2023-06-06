@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(AudioSource))]
 public class GM : MonoBehaviour
 {
 
@@ -17,8 +18,14 @@ public class GM : MonoBehaviour
     [SerializeField] public GameObject[] buttons;
     [SerializeField] public string[] buttonTexts;
     public AudioClip[] audioClips = new AudioClip[2];
+
+    private AudioSource audioSource;
+    private Dictionary<float, int> difficultyDict = new();
+    private AudioClip gameOver;
     private InputHandler _input;
     private GameObject pauseMenu;
+    private GameObject levelUpMenu;
+    private GameObject deathScreen;
     private TextMeshProUGUI timerText;
     private int playerLevel;
     private int minutes = 0;
@@ -27,13 +34,21 @@ public class GM : MonoBehaviour
     public bool paused = false;
     private static float difficultyScale;
     private string time;
-    private GameObject levelUpMenu;
+    private bool playerIsDead = false;
+    
 
     void Awake()
     {
+        difficultyDict.Add(1, 0);    // Easy
+        difficultyDict.Add(1.5f, 1); // Medium
+        difficultyDict.Add(2, 2);    // Hard
         if (SceneManager.GetActiveScene().name == "Menu") difficultyScale = 1;
         if (SceneManager.GetActiveScene().name != "Menu")
         {
+            gameOver = Resources.Load("GameOver") as AudioClip;
+            gameOver.LoadAudioData();
+            deathScreen = GameObject.FindWithTag("DeathScreen");
+            deathScreen.SetActive(false);
             pauseMenu = GameObject.FindWithTag("PauseMenu");
             pauseMenu.SetActive(false);
             _input = GameObject.FindWithTag("Player").GetComponentInChildren<InputHandler>();
@@ -41,6 +56,7 @@ public class GM : MonoBehaviour
             timerText = GameObject.FindWithTag("Timer").GetComponent<TextMeshProUGUI>();
             levelUpMenu = GameObject.FindGameObjectWithTag("LevelUpMenu");
             levelUpMenu.SetActive(false);
+            audioSource = GetComponent<AudioSource>();
             StartCoroutine(ChangeAudioClip());
         }
         paused = false;
@@ -50,7 +66,7 @@ public class GM : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name != "Menu")
         {
-            if (!paused)
+            if (!paused && !playerIsDead)
             {
                 timer += Time.deltaTime;
                 minutes = Mathf.FloorToInt(timer / 60F);
@@ -62,16 +78,28 @@ public class GM : MonoBehaviour
 
             if (!levelUpMenu.activeInHierarchy)
             {
-                if (!pauseMenu.activeInHierarchy && _input.Pause)
+                if (!pauseMenu.activeInHierarchy && _input.Pause && !playerIsDead)
                 {
                     Pause();
                 }
-                else if (pauseMenu.activeInHierarchy && _input.Pause)
+                else if (pauseMenu.activeInHierarchy && _input.Pause && !playerIsDead)
                 {
                     Unpause();
                 }
             } 
         }
+    }
+
+    public void GameOver()
+    {      
+        playerIsDead = true;
+        audioSource.clip = gameOver;
+        audioSource.loop = false;
+        audioSource.volume = 1.0f;
+        audioSource.Play();
+        deathScreen.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        difficultyDropdown.SetValueWithoutNotify(difficultyDict[difficultyScale]);
     }
 
     public void SetDifficulty()
@@ -92,7 +120,7 @@ public class GM : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("Level1Scene", LoadSceneMode.Single);
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -134,13 +162,13 @@ public class GM : MonoBehaviour
 
     IEnumerator ChangeAudioClip()
     {
-        GetComponent<AudioSource>().clip = audioClips[0];
-        GetComponent<AudioSource>().Play();
-        yield return new WaitForSecondsRealtime(GetComponent<AudioSource>().clip.length);
+        audioSource.clip = audioClips[0];
+        audioSource.Play();
+        yield return new WaitForSecondsRealtime(audioSource.clip.length);
 
-        GetComponent<AudioSource>().clip = audioClips[1];
-        GetComponent<AudioSource>().Play();
-        GetComponent<AudioSource>().loop = true;
+        audioSource.clip = audioClips[1];
+        audioSource.Play();
+        audioSource.loop = true;
     }
 
     public void ExitGame(bool hardQuit = false)
