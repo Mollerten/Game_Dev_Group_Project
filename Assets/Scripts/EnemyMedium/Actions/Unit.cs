@@ -6,17 +6,17 @@ public class Unit : MonoBehaviour
 {
 
     private Attacking attacking;
-    private Patrol movement;
-    private Locating locating;
-    private Patrol unitMovement;
+    private Movement locating;
+    private Patroling patroling;
 
 
 
-   /* public private void Awake() 
+   private void Awake() 
    {
-        attacking = GetComponent<Attacking>();
-        movement = GetComponent<Movement>();
-        locating = GetComponent<Locating>();
-        unitMovement = GetComponent<Movement>();
-   } */
+           attacking = GetComponent<Attacking>();
+           locating = GetComponent<Movement>();
+           patroling = GetComponent<Patroling>();
+   }
+     
+   
 }

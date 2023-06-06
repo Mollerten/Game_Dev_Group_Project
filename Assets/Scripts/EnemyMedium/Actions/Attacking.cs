@@ -5,12 +5,12 @@ using UnityEngine;
 public class Attacking : MonoBehaviour
 {
 
-    [SerializeField] private float baseDmg = 10f;
+    [SerializeField] private float baseDmg = 15f;
     private bool canAttack = true;
     [SerializeField] private float attackDelay = 0.8f;
-    
     private Animator animator;
-
+    
+    
 
     public bool CanAttack() => canAttack;
     internal void Attack(GameObject target)

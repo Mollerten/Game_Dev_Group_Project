@@ -17,6 +17,7 @@ public class GM : MonoBehaviour
 
     [SerializeField] public GameObject[] buttons;
     [SerializeField] public string[] buttonTexts;
+    public AudioClip[] audioClips = new AudioClip[2];
     private InputHandler _input;
     private GameObject pauseMenu;
     private TextMeshProUGUI timerText;
@@ -41,6 +42,7 @@ public class GM : MonoBehaviour
             timerText = GameObject.FindWithTag("Timer").GetComponent<TextMeshProUGUI>();
             levelUpMenu = GameObject.FindGameObjectWithTag("LevelUpMenu");
             levelUpMenu.SetActive(false);
+            StartCoroutine(changeAudioClip());
         }
         paused = false;
     }
@@ -134,6 +136,17 @@ public class GM : MonoBehaviour
             //button.GetComponent<Button>().onClick.AddListener(ExitGame);
             //button.GetComponent<Button>().onClick.AddListener(delegate { ExitGame();});
         }
+    }
+
+    IEnumerator changeAudioClip()
+    {
+        GetComponent<AudioSource>().clip = audioClips[0];
+        GetComponent<AudioSource>().Play(); 
+        yield return new WaitForSeconds(GetComponent<AudioSource>().clip.length);
+
+        GetComponent<AudioSource>().clip = audioClips[1];
+        GetComponent<AudioSource>().Play();
+        GetComponent<AudioSource>().loop = true;
     }
 
     public void ExitGame()
