@@ -11,6 +11,7 @@ public class GoblinController : MonoBehaviour
     private NavMeshAgent agent;
     private EnemyHealth status;
     private bool isAttacking = false;
+    // public AudioClip[] attackSounds;
 
     // Start is called before the first frame update
     void Start()
@@ -108,5 +109,10 @@ public class GoblinController : MonoBehaviour
         agent.speed = originalSpeed;
     }
     
+   /*  public void playAttackSound()
+    {
+        GetComponent<AudioSource>().clip = attackSounds[Random.Range(0, attackSounds.Length)];
+        GetComponent<AudioSource>().Play();
+    } */
 
 }

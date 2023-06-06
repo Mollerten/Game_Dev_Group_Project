@@ -13,6 +13,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private Image healthBarFill;
     [SerializeField] private Image healthBarLoss;
     [SerializeField] private TextMeshProUGUI healthBarText;
+    public AudioClip[] hurtSounds = new AudioClip[2];
 
     private float actualValue;
     private float startValue;
@@ -39,6 +40,7 @@ public class PlayerHealth : MonoBehaviour
     
     public void TakeDamage(int damage)
     {
+        PlaySound();
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
         actualValue = currentHealth / (float)maxHealth;
         startValue = healthBarLoss.fillAmount;
@@ -58,5 +60,9 @@ public class PlayerHealth : MonoBehaviour
         healthBarText.text = $"{currentHealth}/{maxHealth}";
     }
 
-    
+    private void PlaySound()
+    {
+        GetComponent<AudioSource>().clip = hurtSounds[UnityEngine.Random.Range(0, hurtSounds.Length)];
+        GetComponent<AudioSource>().Play();
+    }
 }

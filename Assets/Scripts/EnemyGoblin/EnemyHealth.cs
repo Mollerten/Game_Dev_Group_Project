@@ -111,6 +111,8 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
+   
+
     private void PlayDeathSound()
     {
         GetComponent<AudioSource>().clip = deathSounds[UnityEngine.Random.Range(0, deathSounds.Length)];
