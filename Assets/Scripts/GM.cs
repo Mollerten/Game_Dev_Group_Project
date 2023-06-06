@@ -4,9 +4,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class GM : MonoBehaviour
 {
+
+    [Header("Menu")]
+    [SerializeField] TMP_Dropdown difficultyDropdown;
+    [Header("InGame")]
     [ReadOnly] public int enemyLevelScale = 0;
 
     [SerializeField] public GameObject[] buttons;
@@ -18,46 +24,78 @@ public class GM : MonoBehaviour
     private int minutes = 0;
     private int seconds = 0;
     private float timer = 0;
-    private bool started = true; // would change value upon starting/quitting the game, not needed currently as the game is always started
     public bool paused = false;
-    private float difficultyScale = 1; // hardcoded for now, would need the player choosing Easy(1)/Medium(1.5)/Hard(2)
+    private static float difficultyScale;
     private string time;
     private GameObject levelUpMenu;
 
     void Awake()
     {
-        pauseMenu = GameObject.FindWithTag("PauseMenu");
-        pauseMenu.SetActive(false);
-        _input = GameObject.FindWithTag("Player").GetComponentInChildren<InputHandler>();
-        playerLevel = GameObject.FindWithTag("Player").GetComponentInChildren<PlayerStats>().GetLevel();
-        timerText = GameObject.FindWithTag("Timer").GetComponent<TextMeshProUGUI>();
-        levelUpMenu = GameObject.FindGameObjectWithTag("LevelUpMenu");
-        levelUpMenu.SetActive(false);
+        if (SceneManager.GetActiveScene().name == "Menu") difficultyScale = 1;
+        if (SceneManager.GetActiveScene().name != "Menu")
+        {
+            pauseMenu = GameObject.FindWithTag("PauseMenu");
+            pauseMenu.SetActive(false);
+            _input = GameObject.FindWithTag("Player").GetComponentInChildren<InputHandler>();
+            playerLevel = GameObject.FindWithTag("Player").GetComponentInChildren<PlayerStats>().GetLevel();
+            timerText = GameObject.FindWithTag("Timer").GetComponent<TextMeshProUGUI>();
+            levelUpMenu = GameObject.FindGameObjectWithTag("LevelUpMenu");
+            levelUpMenu.SetActive(false);
+        }
+        paused = false;
     }
 
     void Update()
     {
-        if (started && !paused)
+        if (SceneManager.GetActiveScene().name != "Menu")
         {
-            timer += Time.deltaTime;
-            minutes = Mathf.FloorToInt(timer / 60F);
-            seconds = Mathf.FloorToInt(timer - minutes * 60);
-            enemyLevelScale = Mathf.Max(Mathf.FloorToInt((Mathf.Pow(minutes, 0.7f) + (playerLevel / 4f)) * Mathf.Pow(difficultyScale, 1.5f)), 1);
-            time = string.Format("{0:00}:{1:00}", minutes, seconds);
-            timerText.text = time;
+            if (!paused)
+            {
+                timer += Time.deltaTime;
+                minutes = Mathf.FloorToInt(timer / 60F);
+                seconds = Mathf.FloorToInt(timer - minutes * 60);
+                enemyLevelScale = Mathf.Max(Mathf.FloorToInt((Mathf.Pow(timer / 60F, 0.7f) + (playerLevel / 4f)) * Mathf.Pow(difficultyScale, 1.5f)), 1);
+                time = string.Format("{0:00}:{1:00}", minutes, seconds);
+                timerText.text = time;
+            }
+
+            if (!levelUpMenu.activeInHierarchy)
+            {
+                if (!pauseMenu.activeInHierarchy && _input.Pause)
+                {
+                    Pause();
+                }
+                else if (pauseMenu.activeInHierarchy && _input.Pause)
+                {
+                    Unpause();
+                }
+            } 
         }
-        
-        if(!levelUpMenu.activeInHierarchy)
+    }
+
+    public void SetDifficulty()
+    {
+        // Easy(1)/Medium(1.5)/Hard(2)
+        switch (difficultyDropdown.value)
         {
-            if (!pauseMenu.activeInHierarchy && _input.Pause)
-            {
-                Pause();
-            }
-            else if (pauseMenu.activeInHierarchy && _input.Pause)
-            {
-                Unpause();
-            }
+            case 0: 
+                difficultyScale = 1; break;
+            case 1:
+                difficultyScale = 1.5f; break;
+            case 2:
+                difficultyScale = 2; break;
+            default:
+                break;
         }
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        paused = false;
     }
 
     public void Unpause(bool levelUp = false)
@@ -100,10 +138,17 @@ public class GM : MonoBehaviour
 
     public void ExitGame()
     {
+        if (SceneManager.GetActiveScene().name == "Menu")
+        {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+            UnityEditor.EditorApplication.isPlaying = false;
 #else
-		Application.Quit();
-#endif
+		    Application.Quit();
+#endif 
+        }
+        else
+        {
+            SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+        }
     }
 }

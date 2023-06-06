@@ -49,7 +49,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void healthScaling()
     {
-        maxHealth = maxHealth + (player.GetComponent<PlayerUpgrades>().health * 25);
+        maxHealth += (player.GetComponent<PlayerUpgrades>().health * 25);
         currentHealth = maxHealth;
         actualValue = currentHealth / (float)maxHealth;
         startValue = healthBarLoss.fillAmount;

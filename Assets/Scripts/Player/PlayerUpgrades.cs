@@ -19,7 +19,7 @@ public class PlayerUpgrades : MonoBehaviour
 
 
     [SerializeField] private GameObject[] buttons;
-
+    [SerializeField] private TextMeshProUGUI levelUpText;
     [SerializeField] private string[] buttonTexts;
 
 
@@ -52,7 +52,7 @@ public class PlayerUpgrades : MonoBehaviour
         {
 
             buttons[i].GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"{buttonTexts[Random.Range(0,buttonTexts.Length)]}";
-
+            levelUpText.text = $"Lvl {player.GetComponent<PlayerStats>().GetLevel()} -> {player.GetComponent<PlayerStats>().GetLevel() + 1}";
             upgradeTree(i);
         }
 

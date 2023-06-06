@@ -89,7 +89,16 @@ public class EnemyHealth : MonoBehaviour
                 healthBar.SetActive(false);
                 GetComponent<Collider>().enabled = false;
                 GetComponent<Rigidbody>().AddExplosionForce(1000, transform.position, 1);
-                gameObject.tag = "DeadEnemy";
+                Collider[] collidersE = GetComponentsInChildren<Collider>();
+                Collider[] collidersP = player.GetComponentsInChildren<Collider>();
+                
+                foreach (Collider colliderE in collidersE)
+                {
+                    foreach (Collider colliderP in collidersP)
+                    {
+                        Physics.IgnoreCollision(colliderE, colliderP);
+                    }
+                }
                 
                 // Death animation goes here OR activate ragdoll and disable animator
                 isEnemyDead = true;
