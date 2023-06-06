@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 
 public class GM : MonoBehaviour
@@ -42,7 +41,7 @@ public class GM : MonoBehaviour
             timerText = GameObject.FindWithTag("Timer").GetComponent<TextMeshProUGUI>();
             levelUpMenu = GameObject.FindGameObjectWithTag("LevelUpMenu");
             levelUpMenu.SetActive(false);
-            StartCoroutine(changeAudioClip());
+            StartCoroutine(ChangeAudioClip());
         }
         paused = false;
     }
@@ -123,35 +122,30 @@ public class GM : MonoBehaviour
             pauseMenu.SetActive(true);
         }
         paused = true;
-        // UpdateLevelUpChoices();
     }
 
     public void UpdateLevelUpChoices()
     {
         foreach (var button in buttons)
         {
-            //button.GetComponent<Button>().onClick.RemoveAllListeners();
-            //get onClick from arr
             button.GetComponentInChildren<TextMeshProUGUI>().text = $"{buttonTexts[Random.Range(0,buttonTexts.Length)]}";
-            //button.GetComponent<Button>().onClick.AddListener(ExitGame);
-            //button.GetComponent<Button>().onClick.AddListener(delegate { ExitGame();});
         }
     }
 
-    IEnumerator changeAudioClip()
+    IEnumerator ChangeAudioClip()
     {
         GetComponent<AudioSource>().clip = audioClips[0];
-        GetComponent<AudioSource>().Play(); 
-        yield return new WaitForSeconds(GetComponent<AudioSource>().clip.length);
+        GetComponent<AudioSource>().Play();
+        yield return new WaitForSecondsRealtime(GetComponent<AudioSource>().clip.length);
 
         GetComponent<AudioSource>().clip = audioClips[1];
         GetComponent<AudioSource>().Play();
         GetComponent<AudioSource>().loop = true;
     }
 
-    public void ExitGame()
+    public void ExitGame(bool hardQuit = false)
     {
-        if (SceneManager.GetActiveScene().name == "Menu")
+        if (SceneManager.GetActiveScene().name == "Menu" || hardQuit)
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
