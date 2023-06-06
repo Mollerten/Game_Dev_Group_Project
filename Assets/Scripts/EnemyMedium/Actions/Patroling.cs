@@ -7,9 +7,9 @@ public class Patroling : MonoBehaviour
 {
     NavMeshAgent agent; 
     Animator animator;
-    private EnemyHealth status;
     public Transform[] waypoints;
     int waypointIndex;
+    public bool isPatrolling = true;
     Vector3 target;
 
     // Start is called before the first frame update
@@ -17,7 +17,7 @@ public class Patroling : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        status = GetComponent<EnemyHealth>();
+    
         UpdateDestination();
     }
 
@@ -30,6 +30,7 @@ public class Patroling : MonoBehaviour
         {
             IterateWaypointIndex();
             UpdateDestination(); 
+            isPatrolling = true;
             Debug.Log("Waypoint reached");
         }
     }

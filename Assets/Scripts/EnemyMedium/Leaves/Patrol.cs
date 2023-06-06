@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Patrol : Leaf<Context>
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private Patroling patrol;
+    private Movement runToPlayer;
 
-    // Update is called once per frame
-    void Update()
+    public override Result Run(Context context) 
     {
+        patrol = context.transform.GetComponent<Patroling>();
+        runToPlayer = context.transform.GetComponent<Movement>();
+
+        if(patrol == null)
+            return Result.FAILURE;
+
         
-    }
+
+        return Result.SUCCESS;
+    } 
 }

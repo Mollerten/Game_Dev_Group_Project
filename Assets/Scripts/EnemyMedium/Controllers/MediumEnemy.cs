@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BT_Enemy01 : MonoBehaviour
+public class MediumEnemy : MonoBehaviour
 {
     private Context context;
     
@@ -10,10 +10,11 @@ public class BT_Enemy01 : MonoBehaviour
 
 
     List<Node<Context>> layer1 = new List<Node<Context>>();
+    List<Node<Context>> layer2 = new List<Node<Context>>();
 
     Node<Context> moveTo = new RunToPlayer();
     Node<Context> attackTarget = new AttackPlayer();
-    Node<Context> findTargetInRange = new LocatePlayer();
+    Node<Context> patrolArea = new Patrol();
     Node<Context> patol = new Patrol();
 
 
@@ -22,8 +23,12 @@ public class BT_Enemy01 : MonoBehaviour
     void Awake()
     {
     // layer 1
-        layer1.Add(findTargetInRange);
         layer1.Add(moveTo);
+        layer1.Add(patrolArea);
+        
+
+    // layer 2 
+
         layer1.Add(attackTarget);
 
     // root
