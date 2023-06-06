@@ -61,7 +61,7 @@ public class GoblinController : MonoBehaviour
 
     IEnumerator AttackPlayer()
     {
-        if (Vector3.Distance(transform.position, player.transform.position) < 2.0f && !isAttacking)
+        if (Vector3.Distance(transform.position, player.transform.position) < agent.stoppingDistance && !isAttacking)
         {
             isAttacking = true;
             agent.isStopped = true;
@@ -71,7 +71,7 @@ public class GoblinController : MonoBehaviour
             yield return new WaitForSeconds(0.8f);
             StartCoroutine(EnableNavMeshAgent());
             StartCoroutine(ResetAttackBool());
-            if(Vector3.Distance(transform.position, player.transform.position) < 2.0f) player.GetComponent<PlayerHealth>().TakeDamage(5);
+            if(Vector3.Distance(transform.position, player.transform.position) < agent.stoppingDistance) player.GetComponent<PlayerHealth>().TakeDamage(5);
             //Debug.Log("Attacking");
 
         }

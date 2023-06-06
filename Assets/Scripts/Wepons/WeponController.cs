@@ -14,7 +14,10 @@ public class WeponController : MonoBehaviour
     public float axeAttackCooldown = 2.0f;
     public bool isAttacking = false;
     public bool axeCanAttack = true;
-    public GameObject player;
+    private GameObject player;
+
+    public AudioClip[] swordSwipes = new AudioClip[4];
+    public AudioClip[] axeSwings = new AudioClip[2];
     
 
 
@@ -33,6 +36,7 @@ public class WeponController : MonoBehaviour
             if(swordCanAttack)
             {
                 SwordAttack();
+                SwordSwipeRandom();
             }
         }
         if(_input.RightFire)
@@ -40,6 +44,7 @@ public class WeponController : MonoBehaviour
             if(axeCanAttack)
             {
                 AxeAttack();
+                AxeSwingRandom();
             }
         }
     }
@@ -116,6 +121,18 @@ public class WeponController : MonoBehaviour
         }
         //  Debug.Log("Axe cooldown: " + axeAttackCooldown);
         return axeAttackCooldown;
+    }
+
+    private void SwordSwipeRandom()
+    {
+        GetComponent<AudioSource>().clip = swordSwipes[Random.Range(0, 4)];
+        GetComponent<AudioSource>().Play();
+    }
+
+    private void AxeSwingRandom()
+    {
+        GetComponent<AudioSource>().clip = axeSwings[Random.Range(0, 2)];
+        GetComponent<AudioSource>().Play();
     }
 
 }

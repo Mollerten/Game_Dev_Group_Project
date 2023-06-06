@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     [HideInInspector] public float walkSpeed;
     [HideInInspector] public float sprintSpeed;
+    public AudioClip[] audioClips;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -53,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
             readyToJump = false;
             Jump();
             Invoke(nameof(ResetJump), jumpCooldown);
+            PlayJumpSound();
         }
 
         // handle drag
@@ -112,6 +114,11 @@ public class PlayerMovement : MonoBehaviour
         return speed;
     }
 
+    public void PlayJumpSound()
+    {
+        GetComponent<AudioSource>().clip = audioClips[0];
+        GetComponent<AudioSource>().Play();
+    }
     
 
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,6 +16,7 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private GameObject healthBar;
     [SerializeField] private GameObject player;
     [SerializeField] private TextMeshProUGUI levelText;
+    public AudioClip[] deathSounds;
     private float actualValue;
     private float startValue;
     private float displayValue = 1f;
@@ -91,6 +93,7 @@ public class EnemyHealth : MonoBehaviour
                 GetComponent<Rigidbody>().AddExplosionForce(1000, transform.position, 1);
                 Collider[] collidersE = GetComponentsInChildren<Collider>();
                 Collider[] collidersP = player.GetComponentsInChildren<Collider>();
+                PlayDeathSound();
                 
                 foreach (Collider colliderE in collidersE)
                 {
@@ -106,6 +109,12 @@ public class EnemyHealth : MonoBehaviour
                 Destroy(gameObject, 10);
             }
         }
+    }
+
+    private void PlayDeathSound()
+    {
+        GetComponent<AudioSource>().clip = deathSounds[UnityEngine.Random.Range(0, deathSounds.Length)];
+        GetComponent<AudioSource>().Play();
     }
 
     public bool IsEnemyDead()

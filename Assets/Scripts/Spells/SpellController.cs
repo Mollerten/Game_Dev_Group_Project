@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class SpellController : MonoBehaviour
     private GameObject player;
     public float spellCooldown = 2.0f;
     private bool spellEcanAttack = true;
+    public AudioClip[] fireballSounds = new AudioClip[2];
     
 
 
@@ -31,11 +33,16 @@ public class SpellController : MonoBehaviour
             if(spellEcanAttack)
             {
                 SpellAttack();
+                PlaySound();
             }
         }
     }
 
-
+    private void PlaySound()
+    {
+        GetComponent<AudioSource>().clip = fireballSounds[UnityEngine.Random.Range(0, fireballSounds.Length)];
+        GetComponent<AudioSource>().Play();
+    }
 
     void SpellAttack()
     {
