@@ -29,9 +29,9 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnEnemy(float interval, GameObject enemy)
     {
-        if (!(enemiesAlive >= spawnMax) && GameObject.Find("GM").GetComponent<GM>().CanEnemiesSpawn() &&
-            Vector3.Distance(transform.position, GameObject.Find("Player").transform.position) > 30 &&
-            Vector3.Distance(transform.position, GameObject.Find("Player").transform.position) < 60)
+        if (!(enemiesAlive >= spawnMax) && GameObject.Find("GM").GetComponent<GM>().CanEnemiesSpawn()// &&
+            //Vector3.Distance(transform.position, GameObject.Find("Player").transform.position) > 30 &&
+            /*Vector3.Distance(transform.position, GameObject.Find("Player").transform.position) < 60*/)
         {
             GameObject mew = Instantiate(enemy, transform.position, Quaternion.identity, transform);
         }
