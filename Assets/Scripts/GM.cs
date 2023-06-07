@@ -112,10 +112,6 @@ public class GM : MonoBehaviour
         {
             enemyCount += spawnerObj.GetComponent<EnemySpawner>().enemiesAlive;
         }
-        foreach (GameObject spawnerObj in GameObject.FindGameObjectsWithTag("GSpawner"))
-        {
-            enemyCount += spawnerObj.GetComponent<GolemSpawner>().enemiesAlive;
-        }
         enemiesAlive = enemyCount;
     }
 

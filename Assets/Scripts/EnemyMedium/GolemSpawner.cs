@@ -27,7 +27,7 @@ public class GolemSpawner : MonoBehaviour
 
     IEnumerator SpawnEnemy(float interval, GameObject enemy)
     {
-        if (!(enemiesAlive >= spawnMax) && GameObject.Find("GM").GetComponent<GM>().CanEnemiesSpawn() &&
+        if (!(enemiesAlive >= spawnMax) &&
             Vector3.Distance(transform.position, GameObject.Find("Player").transform.position) > 30 &&
             Vector3.Distance(transform.position, GameObject.Find("Player").transform.position) < 60)
         {
