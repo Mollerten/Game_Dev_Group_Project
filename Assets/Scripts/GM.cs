@@ -15,8 +15,7 @@ public class GM : MonoBehaviour
     [Header("InGame")]
     [ReadOnly] public int enemyLevelScale = 0;
 
-    [SerializeField] public GameObject[] buttons;
-    [SerializeField] public string[] buttonTexts;
+   
     public AudioClip[] audioClips = new AudioClip[2];
 
     private AudioSource audioSource;
@@ -48,18 +47,26 @@ public class GM : MonoBehaviour
             gameOver = Resources.Load("GameOver") as AudioClip;
             gameOver.LoadAudioData();
             deathScreen = GameObject.FindWithTag("DeathScreen");
-            deathScreen.SetActive(false);
+            
             pauseMenu = GameObject.FindWithTag("PauseMenu");
-            pauseMenu.SetActive(false);
+            
             _input = GameObject.FindWithTag("Player").GetComponentInChildren<InputHandler>();
             playerLevel = GameObject.FindWithTag("Player").GetComponentInChildren<PlayerStats>().GetLevel();
             timerText = GameObject.FindWithTag("Timer").GetComponent<TextMeshProUGUI>();
             levelUpMenu = GameObject.FindGameObjectWithTag("LevelUpMenu");
-            levelUpMenu.SetActive(false);
+            
             audioSource = GetComponent<AudioSource>();
             StartCoroutine(ChangeAudioClip());
         }
         paused = false;
+    }
+
+    void Start()
+    {
+        levelUpMenu.SetActive(false);
+        pauseMenu.SetActive(false);
+        deathScreen.SetActive(false);
+
     }
 
     void Update()
@@ -152,13 +159,6 @@ public class GM : MonoBehaviour
         paused = true;
     }
 
-    public void UpdateLevelUpChoices()
-    {
-        foreach (var button in buttons)
-        {
-            button.GetComponentInChildren<TextMeshProUGUI>().text = $"{buttonTexts[Random.Range(0,buttonTexts.Length)]}";
-        }
-    }
 
     IEnumerator ChangeAudioClip()
     {

@@ -21,7 +21,7 @@ public class PlayerUpgrades : MonoBehaviour
     [SerializeField] private GameObject[] buttons;
     [SerializeField] private TextMeshProUGUI levelUpText;
     [SerializeField] private string[] buttonTexts;
-
+    
 
     void Awake()
     {

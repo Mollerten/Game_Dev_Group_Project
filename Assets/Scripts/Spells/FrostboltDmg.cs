@@ -66,7 +66,9 @@ public class FrostboltDmg : MonoBehaviour
     {
         Debug.Log("enemy: " + enemy.gameObject.name);
         enemy.gameObject.GetComponent<EnemyHealth>().TakeDamage(damageScaling());
-        enemy.gameObject.GetComponent<GoblinController>().slowEnemy(slowScale());
+        if (enemy.gameObject.GetComponent<GoblinController>() != null) enemy.gameObject.GetComponent<GoblinController>().slowEnemy(slowScale());
+        if (enemy.gameObject.GetComponent<GolemController>() != null) enemy.gameObject.GetComponent<GolemController>().slowEnemy(slowScale());
+
     }
 
 
