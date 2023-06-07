@@ -14,8 +14,10 @@ public class GM : MonoBehaviour
     [SerializeField] TMP_Dropdown difficultyDropdown;
     [Header("InGame")]
     [ReadOnly] public int enemyLevelScale = 0;
+    [ReadOnly] public int enemiesAlive;
+    public int maxEnemies;
 
-   
+
     public AudioClip[] audioClips = new AudioClip[2];
 
     private AudioSource audioSource;
@@ -73,6 +75,7 @@ public class GM : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name != "Menu")
         {
+            UpdateEnemiesAlive();
             if (!paused && !playerIsDead)
             {
                 timer += Time.deltaTime;
@@ -97,6 +100,25 @@ public class GM : MonoBehaviour
         }
     }
 
+    public bool CanEnemiesSpawn()
+    {
+        return enemiesAlive < maxEnemies;
+    }
+
+    private void UpdateEnemiesAlive()
+    {
+        int enemyCount = 0;
+        foreach(GameObject spawnerObj in GameObject.FindGameObjectsWithTag("ESpawner")) 
+        {
+            enemyCount += spawnerObj.GetComponent<EnemySpawner>().enemiesAlive;
+        }
+        foreach (GameObject spawnerObj in GameObject.FindGameObjectsWithTag("GSpawner"))
+        {
+            enemyCount += spawnerObj.GetComponent<GolemSpawner>().enemiesAlive;
+        }
+        enemiesAlive = enemyCount;
+    }
+
     public void GameOver()
     {      
         playerIsDead = true;
@@ -106,6 +128,7 @@ public class GM : MonoBehaviour
         audioSource.Play();
         deathScreen.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         difficultyDropdown.SetValueWithoutNotify(difficultyDict[difficultyScale]);
     }
 
@@ -162,6 +185,7 @@ public class GM : MonoBehaviour
 
     IEnumerator ChangeAudioClip()
     {
+        audioSource.volume = 0.2f;
         audioSource.clip = audioClips[0];
         audioSource.Play();
         yield return new WaitForSecondsRealtime(audioSource.clip.length);

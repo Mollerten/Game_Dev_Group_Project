@@ -24,6 +24,7 @@ public class EnemyHealth : MonoBehaviour
     private float attackTimer = 10f;
     private float hitCooldown;
     private int level;
+    private int pLevel;
     private int xp;
     
 
@@ -36,6 +37,7 @@ public class EnemyHealth : MonoBehaviour
         SetKinematic(true);
 
         level = GameObject.FindWithTag("GameController").GetComponent<GM>().enemyLevelScale;
+        pLevel = player.GetComponent<PlayerStats>().GetLevel();
         if (level < 1) level = 1;
         xp = level * 100;
 
@@ -55,21 +57,21 @@ public class EnemyHealth : MonoBehaviour
 
 
         // man I wish i knew a better way to do this
-        if (player.GetComponent<PlayerStats>().GetLevel() - level <= -3)
+        if (pLevel - level <= -3)
         {
-            levelText.color = new Color(23, 135, 0);
+            levelText.color = new Color(23, 135, 0); // green
         }
-        else if (player.GetComponent<PlayerStats>().GetLevel() - level == 0)
+        else if ((pLevel - level > -3) && (pLevel - level < 3))
         {
-            levelText.color = new Color(255, 255, 255);
+            levelText.color = new Color(255, 255, 255); // white
         }
-        else if (player.GetComponent<PlayerStats>().GetLevel() - level >= 3)
+        else if ((pLevel - level >= 3) && (pLevel - level < 6))
         {
-            levelText.color = new Color(255, 115, 0);
+            levelText.color = new Color(255, 115, 0); // orange
         }
-        else if (player.GetComponent<PlayerStats>().GetLevel() - level >= 6)
+        else if (pLevel - level >= 6)
         {
-            levelText.color = new Color(255, 10, 0);
+            levelText.color = new Color(255, 10, 0); // red
         }
     }
 

@@ -31,7 +31,7 @@ public class WeponController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_input.Fire && !player.GetComponent<PlayerHealth>().IsDead())
+        if(_input.Fire && !player.GetComponent<PlayerHealth>().IsDead() && !GameObject.Find("GM").GetComponent<GM>().paused)
         {
             if(swordCanAttack)
             {
@@ -39,7 +39,7 @@ public class WeponController : MonoBehaviour
                 SwordSwipeRandom();
             }
         }
-        if(_input.RightFire && !player.GetComponent<PlayerHealth>().IsDead())
+        if(_input.RightFire && !player.GetComponent<PlayerHealth>().IsDead() && !GameObject.Find("GM").GetComponent<GM>().paused)
         {
             if(axeCanAttack)
             {

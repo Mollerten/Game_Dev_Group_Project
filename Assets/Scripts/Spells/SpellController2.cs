@@ -7,7 +7,7 @@ public class SpellController2 : MonoBehaviour
 {
 
     public GameObject spellPrefab;
-    public float spellSpeed = 50.0f;
+    public float spellSpeed = 25.0f;
     public Transform spellSpawnPoint;
     public InputHandler _input;
     private GameObject player;
@@ -28,7 +28,7 @@ public class SpellController2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_input.QAction)
+        if(_input.QAction && !GameObject.Find("GM").GetComponent<GM>().paused)
         {
             if(spellEcanAttack)
             {
@@ -93,7 +93,7 @@ public class SpellController2 : MonoBehaviour
         int spellLevel = player.GetComponent<PlayerUpgrades>().frostboltLevel;
         if(spellLevel > 1)
         {
-            spellSpeed = 50.0f + (spellLevel * 2.5f);
+            spellSpeed = 25.0f + (spellLevel * 2.5f);
         }
         return spellSpeed;
     }

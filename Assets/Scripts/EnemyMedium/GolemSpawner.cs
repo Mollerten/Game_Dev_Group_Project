@@ -27,7 +27,9 @@ public class GolemSpawner : MonoBehaviour
 
     IEnumerator SpawnEnemy(float interval, GameObject enemy)
     {
-        if (!(enemiesAlive >= spawnMax))
+        if (!(enemiesAlive >= spawnMax) && GameObject.Find("GM").GetComponent<GM>().CanEnemiesSpawn() &&
+            Vector3.Distance(transform.position, GameObject.Find("Player").transform.position) > 30 &&
+            Vector3.Distance(transform.position, GameObject.Find("Player").transform.position) < 60)
         {
             GameObject mew = Instantiate(enemy, transform.position, Quaternion.identity, transform);
             mew.GetComponent<GolemController>().SetWaypointGroup(WaypointGroup);
