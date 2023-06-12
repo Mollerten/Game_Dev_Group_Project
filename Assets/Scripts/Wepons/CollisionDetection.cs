@@ -40,7 +40,7 @@ public class CollisionDetection : MonoBehaviour
 
     int swordDamageScaling()
     {
-        int damage = Mathf.RoundToInt(Random.Range(minDamageSword, maxDamageSword) + (player.GetComponent<PlayerUpgrades>().swordlevel) * 3);
+        int damage = Mathf.RoundToInt(Random.Range(minDamageSword, maxDamageSword) + player.GetComponent<PlayerUpgrades>().swordlevel * 3);
         return damage;
     }
 

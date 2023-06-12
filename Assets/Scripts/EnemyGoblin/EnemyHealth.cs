@@ -7,9 +7,10 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int maxHealth = 20;
+    public int baseHealth = 20;
     public int currentHealth;
-    
+    public float healthScale = 1.1f;
+
     private bool isEnemyDead;
     [SerializeField] private Image healthBarFill;
     [SerializeField] private Image healthBarLoss;
@@ -17,6 +18,7 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private TextMeshProUGUI levelText;
     public AudioClip[] deathSounds;
+    private int maxHealth;
     private float actualValue;
     private float startValue;
     private float displayValue = 1f;
@@ -30,15 +32,15 @@ public class EnemyHealth : MonoBehaviour
 
     void Start()
     {
+        level = GameObject.FindWithTag("GameController").GetComponent<GM>().enemyLevelScale;
+        if (level < 1) level = 1;
         player = GameObject.FindWithTag("Player");
+        pLevel = player.GetComponent<PlayerStats>().GetLevel();
         isEnemyDead = false;
+        maxHealth = Mathf.FloorToInt(baseHealth + (healthScale * level));
         currentHealth = maxHealth;
         startValue = actualValue = currentHealth / (float)maxHealth;
-        SetKinematic(true);
-
-        level = GameObject.FindWithTag("GameController").GetComponent<GM>().enemyLevelScale;
-        pLevel = player.GetComponent<PlayerStats>().GetLevel();
-        if (level < 1) level = 1;
+        SetKinematic(true);      
         xp = level * 100;
 
         levelText.text = $"{level}";
@@ -57,19 +59,19 @@ public class EnemyHealth : MonoBehaviour
 
 
         // man I wish i knew a better way to do this
-        if (pLevel - level <= -3)
+        if (level - pLevel <= -3)
         {
             levelText.color = new Color(23, 135, 0); // green
         }
-        else if ((pLevel - level > -3) && (pLevel - level < 3))
+        else if ((level - pLevel > -3) && (pLevel - level < 3))
         {
             levelText.color = new Color(255, 255, 255); // white
         }
-        else if ((pLevel - level >= 3) && (pLevel - level < 6))
+        else if ((level - pLevel >= 3) && (pLevel - level < 6))
         {
             levelText.color = new Color(255, 115, 0); // orange
         }
-        else if (pLevel - level >= 6)
+        else if (level - pLevel >= 6)
         {
             levelText.color = new Color(255, 10, 0); // red
         }

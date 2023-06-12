@@ -106,19 +106,19 @@ public class PlayerMovement : MonoBehaviour
         // On ground
         if (grounded)
         {
-            rb.AddForce(moveDirection.normalized * SpeedScaling() * 10f, ForceMode.Force);
+            rb.AddForce(10f * SpeedScaling() * moveDirection.normalized, ForceMode.Force);
         }
 
         // In air
         else if (!grounded)
         {
-            rb.AddForce(moveDirection.normalized * (SpeedScaling() / 2) * 10f * airMultiplier, ForceMode.Force);
+            rb.AddForce((SpeedScaling() / 2) * 10f * airMultiplier * moveDirection.normalized, ForceMode.Force);
         }
     }
 
     private void SpeedControl()
     {
-        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        Vector3 flatVel = new(rb.velocity.x, 0f, rb.velocity.z);
 
         // Limit velocity if needed
         if (flatVel.magnitude > moveSpeed)
