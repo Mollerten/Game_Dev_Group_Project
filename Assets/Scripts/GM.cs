@@ -120,16 +120,19 @@ public class GM : MonoBehaviour
     }
 
     public void GameOver()
-    {      
-        playerIsDead = true;
-        audioSource.clip = gameOver;
-        audioSource.loop = false;
-        audioSource.volume = 1.0f;
-        audioSource.Play();
-        deathScreen.SetActive(true);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        difficultyDropdown.SetValueWithoutNotify(difficultyDict[difficultyScale]);
+    {
+        if (!playerIsDead)
+        {
+            playerIsDead = true;
+            audioSource.clip = gameOver;
+            audioSource.loop = false;
+            audioSource.volume = 1.0f;
+            audioSource.Play();
+            deathScreen.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            difficultyDropdown.SetValueWithoutNotify(difficultyDict[difficultyScale]); 
+        }
     }
 
     public void SetDifficulty()

@@ -26,13 +26,13 @@ public class GolemController : MonoBehaviour
         anim = GetComponent<Animator>();
         status = GetComponent<EnemyHealth>();
 
-        // UpdateDestination(); 
+        // UpdateDestination();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (agent.enabled )
+        if (agent.enabled)
         {
         
             if (player && !status.IsEnemyDead() && !player.GetComponent<PlayerHealth>().IsDead())
@@ -145,6 +145,7 @@ public class GolemController : MonoBehaviour
     public void SetWaypointGroup(string group)
     {
         waypoints = GameObject.FindGameObjectsWithTag(group);
+        agent = GetComponent<NavMeshAgent>();
         UpdateDestination();
     }
 }

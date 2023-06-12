@@ -51,6 +51,7 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth <= 0 && !isDead)
         {
             GameObject.FindWithTag("GameController").GetComponent<GM>().GameOver();
+            Debug.Log("Player Dieded");
             isDead = true;
         }
     }

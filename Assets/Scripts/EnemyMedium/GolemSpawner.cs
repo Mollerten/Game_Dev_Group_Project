@@ -10,9 +10,20 @@ public class GolemSpawner : MonoBehaviour
     [ReadOnly] public int enemiesAlive = 0;
     public string WaypointGroup;
 
-    void Start()
+    IEnumerator Start()
     {
-        StartCoroutine(SpawnEnemy(golemInterval, enemyPrefab));
+        while (true)
+        {
+            if (enemiesAlive < spawnMax)
+            {
+                SpawnEnemy(enemyPrefab);
+                yield return new WaitForSeconds(golemInterval);
+            }
+            else
+            {
+                yield return new WaitUntil(delegate { return enemiesAlive == 0; });
+            }
+        }
     }
 
     void Update()
@@ -25,16 +36,9 @@ public class GolemSpawner : MonoBehaviour
         enemiesAlive = tmp;
     }
 
-    IEnumerator SpawnEnemy(float interval, GameObject enemy)
+    void SpawnEnemy(GameObject enemy)
     {
-        if (!(enemiesAlive >= spawnMax) &&
-            Vector3.Distance(transform.position, GameObject.Find("Player").transform.position) > 30 &&
-            Vector3.Distance(transform.position, GameObject.Find("Player").transform.position) < 60)
-        {
-            GameObject mew = Instantiate(enemy, transform.position, Quaternion.identity, transform);
-            mew.GetComponent<GolemController>().SetWaypointGroup(WaypointGroup);
-        }
-        yield return new WaitForSeconds(interval);
-        StartCoroutine(SpawnEnemy(interval, enemy));
+        GameObject mew = Instantiate(enemy, transform.position, Quaternion.identity, transform);
+        mew.GetComponent<GolemController>().SetWaypointGroup(WaypointGroup);
     }
 }
