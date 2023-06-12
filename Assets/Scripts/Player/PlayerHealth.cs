@@ -48,11 +48,11 @@ public class PlayerHealth : MonoBehaviour
         healthBarFill.fillAmount = actualValue;
         healthBarText.text = $"{currentHealth}/{maxHealth}";
         timer = 0f;
-        if (currentHealth <= 0 && !isDead)
+        if (currentHealth == 0 && !isDead)
         {
-            GameObject.FindWithTag("GameController").GetComponent<GM>().GameOver();
             Debug.Log("Player Dieded");
             isDead = true;
+            GameObject.Find("GM").GetComponent<GM>().GameOver();
         }
     }
 

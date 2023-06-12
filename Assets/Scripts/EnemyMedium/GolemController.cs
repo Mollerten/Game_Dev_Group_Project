@@ -12,7 +12,7 @@ public class GolemController : MonoBehaviour
     private NavMeshAgent agent;
     private EnemyHealth status;
     private bool isAttacking = false;
-    private GameObject[] waypoints;
+    public GameObject[] waypoints;
     
     int waypointIndex;
     Vector3 target;
@@ -117,10 +117,10 @@ public class GolemController : MonoBehaviour
     }
 
     void UpdateDestination()
-        {
-            target = waypoints[waypointIndex].GetComponent<Transform>().position;
-            agent.SetDestination(target);
-        }
+    {
+        target = waypoints[waypointIndex].GetComponent<Transform>().position;
+        agent.SetDestination(target);
+    }
 
 
     void IterateWaypointIndex()
@@ -136,15 +136,16 @@ public class GolemController : MonoBehaviour
     {
         if(Vector3.Distance(transform.position, target) <= agent.stoppingDistance)
         {
-            IterateWaypointIndex();
-            UpdateDestination(); 
+            IterateWaypointIndex(); 
             Debug.Log("Waypoint reached");
         }
+        UpdateDestination();
     }
 
     public void SetWaypointGroup(string group)
     {
         waypoints = GameObject.FindGameObjectsWithTag(group);
+        Debug.Log($"{waypoints[0].transform.localPosition}");
         agent = GetComponent<NavMeshAgent>();
         UpdateDestination();
     }

@@ -193,9 +193,12 @@ public class GM : MonoBehaviour
         audioSource.Play();
         yield return new WaitForSecondsRealtime(audioSource.clip.length);
 
-        audioSource.clip = audioClips[1];
-        audioSource.Play();
-        audioSource.loop = true;
+        if (!playerIsDead)
+        {
+            audioSource.clip = audioClips[1];
+            audioSource.Play();
+            audioSource.loop = true; 
+        }
     }
 
     public void ExitGame(bool hardQuit = false)
