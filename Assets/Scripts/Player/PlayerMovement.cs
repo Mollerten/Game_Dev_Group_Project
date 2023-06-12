@@ -6,33 +6,35 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-
     [SerializeField] InputHandler _input;
 
     [Header("Movement")]
     public float moveSpeed;
-
     public float groundDrag;
-
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
-    bool readyToJump;
+    public float dashDistance;
+    public float dashDuration;
+    public float dashCooldown;
 
-    [HideInInspector] public float walkSpeed;
-    [HideInInspector] public float sprintSpeed;
+    private bool readyToJump;
+    private bool readyToDash;
+    private bool isDashing;
+    private Vector3 dashDirection;
+    private float dashTimer;
+    private float dashCooldownTimer;
     public AudioClip[] audioClips;
 
-    [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
-    bool grounded;
+    private bool grounded;
 
     public Transform orientation;
 
-    Vector3 moveDirection;
+    private Vector3 moveDirection;
 
-    Rigidbody rb;
+    private Rigidbody rb;
 
     private void Start()
     {
@@ -40,11 +42,12 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
 
         readyToJump = true;
+        readyToDash = true;
     }
 
     private void Update()
     {
-        // ground check
+        // Ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
 
         SpeedControl();
@@ -57,7 +60,30 @@ public class PlayerMovement : MonoBehaviour
             PlayJumpSound();
         }
 
-        // handle drag
+        if (_input.Dash && readyToDash && !GetComponent<PlayerHealth>().IsDead())
+        {
+            Dash();
+            PlayJumpSound();
+        }
+
+        if (isDashing)
+        {
+            dashTimer -= Time.deltaTime;
+            if (dashTimer <= 0f)
+            {
+                StopDash();
+            }
+        }
+        else if (!readyToDash)
+        {
+            dashCooldownTimer -= Time.deltaTime;
+            if (dashCooldownTimer <= 0f)
+            {
+                readyToDash = true;
+            }
+        }
+
+        // Handle drag
         if (grounded)
             rb.drag = groundDrag;
         else
@@ -68,30 +94,34 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!GetComponent<PlayerHealth>().IsDead())
         {
-            MovePlayer(); 
+            MovePlayer();
         }
     }
 
     private void MovePlayer()
     {
-        // calculate movement direction
+        // Calculate movement direction
         moveDirection = orientation.forward * _input.Move.y + orientation.right * _input.Move.x;
 
-        // on ground
-        if(grounded)
+        // On ground
+        if (grounded)
+        {
             rb.AddForce(moveDirection.normalized * SpeedScaling() * 10f, ForceMode.Force);
+        }
 
-        // in air
-        else if(!grounded)
-            rb.AddForce(moveDirection.normalized * (SpeedScaling()/2) * 10f * airMultiplier, ForceMode.Force);
+        // In air
+        else if (!grounded)
+        {
+            rb.AddForce(moveDirection.normalized * (SpeedScaling() / 2) * 10f * airMultiplier, ForceMode.Force);
+        }
     }
 
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        // limit velocity if needed
-        if(flatVel.magnitude > moveSpeed)
+        // Limit velocity if needed
+        if (flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
@@ -100,20 +130,50 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        // reset y velocity
+        // Reset y velocity
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
+
     private void ResetJump()
     {
         readyToJump = true;
     }
 
+private void Dash()
+{
+    if (readyToDash)
+    {
+        readyToDash = false;
+        isDashing = true;
+
+        // Calculate the dash direction based on player orientation
+        dashDirection = orientation.forward;
+
+        // Preserve the current y velocity to maintain the player's vertical position
+        float preservedYVelocity = rb.velocity.y;
+
+        // Apply the dash velocity, preserving the y velocity
+        rb.velocity = (dashDirection * (dashDistance / dashDuration)) + (Vector3.up * preservedYVelocity);
+
+        dashTimer = dashDuration;
+        dashCooldownTimer = dashCooldown;
+
+        Invoke(nameof(StopDash), dashDuration);
+    }
+}
+
+
+   private void StopDash()
+{
+    isDashing = false;
+
+}
+
     public float SpeedScaling()
     {
-        float speed = moveSpeed + ((GetComponent<PlayerUpgrades>().speed) * 3);
-        // Debug.Log("Speed: " + speed);
+        float speed = moveSpeed + (GetComponent<PlayerUpgrades>().speed * 3);
         return speed;
     }
 
@@ -122,6 +182,4 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<AudioSource>().clip = audioClips[0];
         GetComponent<AudioSource>().Play();
     }
-    
-
 }
