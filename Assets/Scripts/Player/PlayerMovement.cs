@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
         if (_input.Dash && readyToDash && !GetComponent<PlayerHealth>().IsDead())
         {
             Dash();
-            PlayJumpSound();
+            PlayDashSound();
         }
 
         if (isDashing)
@@ -180,6 +180,12 @@ private void Dash()
     public void PlayJumpSound()
     {
         GetComponent<AudioSource>().clip = audioClips[0];
+        GetComponent<AudioSource>().Play();
+    }
+
+    public void PlayDashSound()
+    {
+        GetComponent<AudioSource>().clip = audioClips[1];
         GetComponent<AudioSource>().Play();
     }
 }
