@@ -65,9 +65,13 @@ public class GM : MonoBehaviour
 
     void Start()
     {
-        levelUpMenu.SetActive(false);
-        pauseMenu.SetActive(false);
-        deathScreen.SetActive(false);
+        if (SceneManager.GetActiveScene().name != "Menu")
+        {
+            levelUpMenu.SetActive(false);
+            pauseMenu.SetActive(false);
+            deathScreen.SetActive(false);  
+        }
+        
 
     }
 
