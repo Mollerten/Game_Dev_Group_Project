@@ -13,7 +13,7 @@ public class GolemController : MonoBehaviour
     private EnemyHealth status;
     private bool isAttacking = false;
     private GameObject[] waypoints;
-    private string WaypointGroup;
+    
     int waypointIndex;
     Vector3 target;
     // public AudioClip[] attackSounds;
@@ -25,9 +25,8 @@ public class GolemController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         status = GetComponent<EnemyHealth>();
-        waypoints = GameObject.FindGameObjectsWithTag(WaypointGroup);
 
-        UpdateDestination(); 
+        // UpdateDestination(); 
     }
 
     // Update is called once per frame
@@ -145,6 +144,7 @@ public class GolemController : MonoBehaviour
 
     public void SetWaypointGroup(string group)
     {
-        WaypointGroup = group;
+        waypoints = GameObject.FindGameObjectsWithTag(group);
+        UpdateDestination();
     }
 }
