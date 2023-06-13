@@ -137,7 +137,7 @@ public class GolemController : MonoBehaviour
         if(Vector3.Distance(transform.position, target) <= agent.stoppingDistance)
         {
             IterateWaypointIndex(); 
-            Debug.Log("Waypoint reached");
+            // Debug.Log("Waypoint reached");
         }
         UpdateDestination();
     }

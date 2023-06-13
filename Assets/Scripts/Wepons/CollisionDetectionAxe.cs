@@ -25,7 +25,7 @@ public class CollisionDetectionAxe : MonoBehaviour
             other.GetComponent<Animator>().SetTrigger("Hit");
             if(!other.GetComponent<EnemyHealth>().IsEnemyDead())
             {
-                Destroy(Instantiate(HitParticle, new Vector3(other.transform.position.x, other.transform.position.y + 0.75f, other.transform.position.z), other.transform.rotation), 1f);
+                Destroy(Instantiate(HitParticle, new Vector3(other.transform.position.x, this.transform.position.y, other.transform.position.z), other.transform.rotation), 1f);
             }
             // Debug.Log("Axe: " + axeDamageScaling());
             DoAttack(other);
