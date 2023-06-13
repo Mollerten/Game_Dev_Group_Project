@@ -19,11 +19,11 @@ public class PlayerMovement : MonoBehaviour
     public float dashCooldown;
 
     private bool readyToJump;
-    private bool readyToDash;
+    public bool readyToDash;
     private bool isDashing;
     private Vector3 dashDirection;
-    private float dashTimer;
-    private float dashCooldownTimer;
+    public float dashTimer;
+    public float dashCooldownTimer;
     public AudioClip[] audioClips;
 
     public float playerHeight;
