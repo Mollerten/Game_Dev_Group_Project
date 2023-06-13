@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PickUpHandler : MonoBehaviour
 {
-
+    [SerializeField] InputHandler _input;
     private GameObject player;
 
     void Start()
@@ -34,6 +36,17 @@ public class PickUpHandler : MonoBehaviour
 
             default:
                 break;
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("bossDoor"))
+        {
+            if (_input.Interact && SceneManager.GetActiveScene().name == "Level1Scene")
+            {
+                SceneManager.LoadScene("Level2Scene", LoadSceneMode.Single);
+            }
         }
     }
 }

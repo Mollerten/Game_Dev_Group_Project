@@ -16,6 +16,7 @@ public class InputHandler : MonoBehaviour
     public bool Pause;
     public Vector2 Look;
     public bool Dash;
+    public bool Interact;
 
     InputAction _fireAction;
     InputAction _rightFireAction;
@@ -26,6 +27,7 @@ public class InputHandler : MonoBehaviour
     InputAction _pauseAction;
     InputAction _lookAction;
     InputAction _dashAction;
+    InputAction _interactAction;
 
     void Awake()
     {
@@ -38,6 +40,7 @@ public class InputHandler : MonoBehaviour
         _eAction = _playerInput.actions["EAction"];
         _qAction = _playerInput.actions["QAction"];
         _dashAction = _playerInput.actions["Dash"];
+        _interactAction = _playerInput.actions["Interact"];
     }
 
     void Update()
@@ -51,5 +54,6 @@ public class InputHandler : MonoBehaviour
         Pause = _pauseAction.WasPressedThisFrame();
         Look = _lookAction.ReadValue<Vector2>();
         Dash = _dashAction.WasPressedThisFrame();
+        Interact = _interactAction.WasPressedThisFrame();
     }
 }
